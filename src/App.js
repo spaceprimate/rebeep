@@ -49,6 +49,9 @@ const styles = {
   slider: {
     padding: '22px 0px',
   },
+  icon:{
+    color: 'orange',
+  }
 };
 
 class App extends React.Component {
@@ -216,10 +219,10 @@ class App extends React.Component {
           {
           col.map((row, e)=>{
             let cn = (i === this.state.curBeat && this.state.isPlaying) ? 'active' : 'inactive';
+            cn += (this.state.rythm[i][e] ? ' on' : ' off')
             return(
-              <div className={'beep ' + cn} onClick={()=>that.setBeat(i,e)} key={e}>
-                <Typography>{this.state.rythm[i][e] ? 'X' : 'O'}</Typography>
-                
+              <div className={'beep'} onClick={()=>that.setBeat(i,e)} key={e}>
+                <div className={'beep-inner ' + cn} />
               </div>
             );
           })
@@ -233,8 +236,8 @@ class App extends React.Component {
       
       <div>
         <div>
-          <PlayArrowIcon onClick={()=>{this.startRythm()}}/>
-          <StopIcon onClick={()=>{this.stopRythm()}}/>
+          <PlayArrowIcon onClick={()=>{this.startRythm()}} className={classes.icon}/>
+          <StopIcon onClick={()=>{this.stopRythm()}} className={classes.icon}/>
           {/* <span onClick={()=>{this.startRythm()}}>Play</span> */}
           {/* <span onClick={()=>{this.stopRythm()}}>Stop</span> */}
         </div>

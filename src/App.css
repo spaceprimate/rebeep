@@ -1,10 +1,18 @@
 
-
+body{background:black;}
 
 .beep-col{float:left; width: 25px;}
+
+div.beep{padding: 2px;}
+div.beep-inner{height: 20px; width: 20px; background: rgb(41, 41, 41); border-radius: 2px}
+div.beep-inner.active{background: rgb(107, 103, 100);}
+div.beep-inner.on{background: orange;}
+div.beep-inner.on.active{background: rgb(255, 231, 186);}
 .beep.active, body .beep.active p{color: chartreuse;}
 
 .clearboth{clear: both; height: 1px;}
 .slider{clear:both; padding: 12px 0;}
 
 .controls{float:left;}
+
+.icon{fill: orange;}
