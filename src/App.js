@@ -101,7 +101,7 @@ class App extends React.Component {
     
 
     this.state = {
-      rythm : createBeatArray(16, 12),
+      rythm : createEmptyRythm(16, 12),
       // rythm : [
       //   [false, false, false, false, false, false, false, false, false, false, false, false],
       //   [false, false, false, false, false, false, false, false, false, false, false, false],
@@ -433,8 +433,11 @@ App.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-
-function createBeatArray(numberBeats, numberNotes){
+/**
+ * Creates an empty 2 dimensional array representing the rythm
+ * In the UI, beats are the columns, notes the rows
+ */
+function createEmptyRythm(numberBeats, numberNotes){
   let arr = []
   for(let i = 0; i < numberBeats; i++){
     let column = [];
