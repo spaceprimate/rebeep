@@ -6,8 +6,17 @@ import StopIcon from '@material-ui/icons/Stop';
 import { Typography } from '@material-ui/core';
 import Slider from '@material-ui/lab/Slider';
 
+import { createMuiTheme } from '@material-ui/core/styles';
+
+
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
+
+import { fade } from '@material-ui/core/styles/colorManipulator';
+
+// import MuiThemeProvider from '@material-ui/core/MuiThemeProvider';
+// import getMuiTheme from 'material-ui/lib/styles/getMuiTheme';
+
 
 
 const audio = new window.AudioContext();
@@ -51,34 +60,67 @@ const styles = {
   },
   icon:{
     color: 'orange',
-  }
+  },
 };
+
+
+const StyledSlider = withStyles({
+  thumb: {
+    height: 24,
+    width: 24,
+    backgroundColor: '#fff',
+    border: '2px solid #de235b',
+    '&$focused, &:hover': {
+      boxShadow: `0px 0px 0px ${8}px ${fade('#de235b', 0.16)}`,
+    },
+    '&$activated': {
+      boxShadow: `0px 0px 0px ${8 * 1.5}px ${fade('#de235b', 0.16)}`,
+    },
+    '&$jumped': {
+      boxShadow: `0px 0px 0px ${8 * 1.5}px ${fade('#de235b', 0.16)}`,
+    },
+  },
+  track: {
+    backgroundColor: '#de235b',
+    height: 8,
+  },
+  trackAfter: {
+    backgroundColor: '#d0d7dc',
+  },
+  focused: {},
+  activated: {},
+  jumped: {},
+})(Slider);
+
+
 
 class App extends React.Component {
 
   constructor(props){
     super(props);
+    
 
     this.state = {
-      rythm : [
-        [false, false, false, false, false, false, false, false, false, false, false, false],
-        [false, false, false, false, false, false, false, false, false, false, false, false],
-        [false, false, false, false, false, false, false, false, false, false, false, false],
-        [false, false, false, false, false, false, false, false, false, false, false, false],
-        [false, false, false, false, false, false, false, false, false, false, false, false],
-        [false, false, false, false, false, false, false, false, false, false, false, false],
-        [false, false, false, false, false, false, false, false, false, false, false, false],
-        [false, false, false, false, false, false, false, false, false, false, false, false],
-        [false, false, false, false, false, false, false, false, false, false, false, false],
-        [false, false, false, false, false, false, false, false, false, false, false, false],
-        [false, false, false, false, false, false, false, false, false, false, false, false],
-        [false, false, false, false, false, false, false, false, false, false, false, false],
-        [false, false, false, false, false, false, false, false, false, false, false, false],
-        [false, false, false, false, false, false, false, false, false, false, false, false],
-        [false, false, false, false, false, false, false, false, false, false, false, false],
-        [false, false, false, false, false, false, false, false, false, false, false, false],
+      rythm : createBeatArray(16, 12),
+      // rythm : [
+      //   [false, false, false, false, false, false, false, false, false, false, false, false],
+      //   [false, false, false, false, false, false, false, false, false, false, false, false],
+      //   [false, false, false, false, false, false, false, false, false, false, false, false],
+      //   [false, false, false, false, false, false, false, false, false, false, false, false],
+      //   [false, false, false, false, false, false, false, false, false, false, false, false],
+      //   [false, false, false, false, false, false, false, false, false, false, false, false],
+      //   [false, false, false, false, false, false, false, false, false, false, false, false],
+      //   [false, false, false, false, false, false, false, false, false, false, false, false],
+      //   [false, false, false, false, false, false, false, false, false, false, false, false],
+      //   [false, false, false, false, false, false, false, false, false, false, false, false],
+      //   [false, false, false, false, false, false, false, false, false, false, false, false],
+      //   [false, false, false, false, false, false, false, false, false, false, false, false],
+      //   [false, false, false, false, false, false, false, false, false, false, false, false],
+      //   [false, false, false, false, false, false, false, false, false, false, false, false],
+      //   [false, false, false, false, false, false, false, false, false, false, false, false],
+      //   [false, false, false, false, false, false, false, false, false, false, false, false],
 
-      ],
+      // ],
       curBeat: 0,
       isPlaying : false,
       amplitude : 50,
@@ -246,13 +288,13 @@ class App extends React.Component {
         <div className={'controls'}>
           <div className={classes.sliderWrap + ' slider'}>
             <Typography>amplitude</Typography>
-            <SimpleSlider 
-              init={this.config.amplitude}
-              handleChange={this.setAmplitude} 
-              min={0}
-              max={this.config.amplitudeRange[1]}
-              step={this.config.amplitudeRange[2]}
-            />
+              <SimpleSlider 
+                init={this.config.amplitude}
+                handleChange={this.setAmplitude} 
+                min={0}
+                max={this.config.amplitudeRange[1]}
+                step={this.config.amplitudeRange[2]}
+              />
 
             <Typography>attack</Typography>
             <SimpleSlider 
@@ -318,7 +360,7 @@ class SimpleSlider extends React.Component{
 
     return (
     
-        <Slider
+        <StyledSlider
           className = {"slider"}
           value={value}
           min={this.props.min}
@@ -390,5 +432,18 @@ function beep(config, freq) {
 App.propTypes = {
   classes: PropTypes.object.isRequired,
 };
+
+
+function createBeatArray(numberBeats, numberNotes){
+  let arr = []
+  for(let i = 0; i < numberBeats; i++){
+    let column = [];
+    for(let e = 0; e < numberNotes; e++){
+      column.push(false);
+    }
+    arr.push(column);
+  }
+  return arr;
+}
 
 export default withStyles(styles)(App);
