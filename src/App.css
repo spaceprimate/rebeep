@@ -16,3 +16,5 @@ div.beep-inner.on.active{background: rgb(255, 231, 186);}
 .controls{float:left;}
 
 .icon{fill: orange;}
+
+body .slider>p{color: #737373;}

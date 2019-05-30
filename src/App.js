@@ -52,6 +52,12 @@ const scale = [
 
 
 const styles = {
+  Typography: {
+    color: 'orange',
+  },
+  text: {
+    color: 'orange',
+  },
   sliderWrap: {
     width: 300,
   },
@@ -66,23 +72,23 @@ const styles = {
 
 const StyledSlider = withStyles({
   thumb: {
-    height: 24,
-    width: 24,
-    backgroundColor: '#fff',
-    border: '2px solid #de235b',
+    height: 18,
+    width: 18,
+    backgroundColor: '#000',
+    border: '1px solid #FFA500',
     '&$focused, &:hover': {
-      boxShadow: `0px 0px 0px ${8}px ${fade('#de235b', 0.16)}`,
+      boxShadow: `0px 0px 0px ${8}px ${fade('#FFA500', 0.16)}`,
     },
     '&$activated': {
-      boxShadow: `0px 0px 0px ${8 * 1.5}px ${fade('#de235b', 0.16)}`,
+      boxShadow: `0px 0px 0px ${8 * 1.5}px ${fade('#FFA500', 0.16)}`,
     },
     '&$jumped': {
-      boxShadow: `0px 0px 0px ${8 * 1.5}px ${fade('#de235b', 0.16)}`,
+      boxShadow: `0px 0px 0px ${8 * 1.5}px ${fade('#FFA500', 0.16)}`,
     },
   },
   track: {
-    backgroundColor: '#de235b',
-    height: 8,
+    backgroundColor: '#FFA500',
+    height: 3,
   },
   trackAfter: {
     backgroundColor: '#d0d7dc',
@@ -102,32 +108,12 @@ class App extends React.Component {
 
     this.state = {
       rythm : createEmptyRythm(16, 12),
-      // rythm : [
-      //   [false, false, false, false, false, false, false, false, false, false, false, false],
-      //   [false, false, false, false, false, false, false, false, false, false, false, false],
-      //   [false, false, false, false, false, false, false, false, false, false, false, false],
-      //   [false, false, false, false, false, false, false, false, false, false, false, false],
-      //   [false, false, false, false, false, false, false, false, false, false, false, false],
-      //   [false, false, false, false, false, false, false, false, false, false, false, false],
-      //   [false, false, false, false, false, false, false, false, false, false, false, false],
-      //   [false, false, false, false, false, false, false, false, false, false, false, false],
-      //   [false, false, false, false, false, false, false, false, false, false, false, false],
-      //   [false, false, false, false, false, false, false, false, false, false, false, false],
-      //   [false, false, false, false, false, false, false, false, false, false, false, false],
-      //   [false, false, false, false, false, false, false, false, false, false, false, false],
-      //   [false, false, false, false, false, false, false, false, false, false, false, false],
-      //   [false, false, false, false, false, false, false, false, false, false, false, false],
-      //   [false, false, false, false, false, false, false, false, false, false, false, false],
-      //   [false, false, false, false, false, false, false, false, false, false, false, false],
-
-      // ],
       curBeat: 0,
       isPlaying : false,
       amplitude : 50,
     };
 
     
-
     this.timerId = null;
     // this.curBeat = 0;
     // this.isPlayer = false;
@@ -207,8 +193,6 @@ class App extends React.Component {
     this.state.rythm[this.state.curBeat].forEach((i,e)=>{
       if(i){
         this.beep(scale[e]);
-        // console.log("scale: ");
-        // console.log(scale[e]);
       }
     });
     if(this.state.curBeat < 15){
