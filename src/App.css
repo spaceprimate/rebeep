@@ -18,3 +18,13 @@ div.beep-inner.on.active{background: rgb(255, 231, 186);}
 .icon{fill: orange;}
 
 body .slider>p{color: #737373;}
+
+body .appbar{background: #0c0c0c; color: orange; border-bottom: 1px solid #1f1f1f;}
+body .toolbar{min-height: 52px;}
+body .toolbar .playstop{
+    width: 60px;
+    margin: 0 auto;
+}
+body .playstop svg{font-size:32px;}
+
+.main{margin-top: 78px;}

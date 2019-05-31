@@ -6,6 +6,10 @@ import StopIcon from '@material-ui/icons/Stop';
 import { Typography } from '@material-ui/core';
 import Slider from '@material-ui/lab/Slider';
 
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+
+
 import { createMuiTheme } from '@material-ui/core/styles';
 
 
@@ -261,14 +265,33 @@ class App extends React.Component {
     return (
       
       <div>
-        <div>
-          <PlayArrowIcon onClick={()=>{this.startRythm()}} className={classes.icon}/>
-          <StopIcon onClick={()=>{this.stopRythm()}} className={classes.icon}/>
+        <AppBar className={'appbar'}>
+          <Toolbar className={'toolbar'} >
+          <div className="playstop">
+            <span hidden={this.state.isPlaying}>
+            <PlayArrowIcon 
+              onClick={()=>{this.startRythm()}} 
+              className={classes.icon}
+            />
+            </span>
+            <span hidden={!this.state.isPlaying}>
+              <StopIcon 
+                onClick={()=>{this.stopRythm()}} 
+                className={classes.icon}
+                hidden={!this.state.isPlaying}
+              />
+            </span>
+            
+          </div>
+          
           {/* <span onClick={()=>{this.startRythm()}}>Play</span> */}
           {/* <span onClick={()=>{this.stopRythm()}}>Stop</span> */}
-        </div>
+          </Toolbar>
+        </AppBar>
+        <main className={'main'}>
+          {beeps}
+        </main>
         
-        {beeps}
         <div className={'controls'}>
           <div className={classes.sliderWrap + ' slider'}>
             <Typography>amplitude</Typography>
