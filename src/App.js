@@ -3,8 +3,14 @@ import './App.css';
 
 import PlayArrowIcon from '@material-ui/icons/PlayArrow';
 import StopIcon from '@material-ui/icons/Stop';
+import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
+import SettingsIcon from '@material-ui/icons/SettingsApplications';
 import { Typography } from '@material-ui/core';
 import Slider from '@material-ui/lab/Slider';
+import List from '@material-ui/core/List';
+import Drawer from '@material-ui/core/Drawer';
+import IconButton from '@material-ui/core/IconButton';
+import Divider from '@material-ui/core/Divider';
 
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -71,6 +77,13 @@ const styles = {
   icon:{
     color: 'orange',
   },
+  toolbarIcon: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+    padding: '0 8px',
+    // ...theme.mixins.toolbar,
+  },
 };
 
 
@@ -115,6 +128,7 @@ class App extends React.Component {
       curBeat: 0,
       isPlaying : false,
       amplitude : 50,
+      showControls: false,
     };
 
     
@@ -132,13 +146,13 @@ class App extends React.Component {
       amplitude: .5,
       amplitudeRange: [0,.8,.01],
       modType: "sine",
-      modFrequency: 30,
+      modFrequency: 22,
       modFrequencyRange: [0,200,1],
-      modAmount: 50,
+      modAmount: 7.2,
       modAmountRange: [0,600,1],
     };
 
-
+//init 50 157
     
   }
 
@@ -164,11 +178,12 @@ class App extends React.Component {
 
   setModRate = (v) => {
     this.config.modFrequency = (v * (.005*v)); // initial values grow slowly
+    console.log(v);
   };
 
   setModAmount = (v) => {
     this.config.modAmount = (v * (.001*v)); // initial values grow slowly
-    console.log(this.config.modAmount);
+    console.log(v);
   };
 
   startRythm(){
@@ -180,6 +195,8 @@ class App extends React.Component {
     
 
   }
+
+
 
   stopRythm(){
     clearInterval(this.timerId);
@@ -211,6 +228,12 @@ class App extends React.Component {
       });
     }
     
+  }
+
+  settingsToggle(){
+    this.setState({
+      showControls: !this.state.showControls,
+    })
   }
 
   setBeat(col, row){
@@ -281,18 +304,19 @@ class App extends React.Component {
                 hidden={!this.state.isPlaying}
               />
             </span>
+            <span>
+              <SettingsIcon 
+                onClick={()=>{this.settingsToggle()}}
+              />
+            </span>
             
           </div>
           
           {/* <span onClick={()=>{this.startRythm()}}>Play</span> */}
           {/* <span onClick={()=>{this.stopRythm()}}>Stop</span> */}
           </Toolbar>
-        </AppBar>
-        <main className={'main'}>
-          {beeps}
-        </main>
-        
-        <div className={'controls'}>
+
+          <div className={'controls'} hidden={!this.state.showControls}>
           <div className={classes.sliderWrap + ' slider'}>
             <Typography>amplitude</Typography>
               <SimpleSlider 
@@ -324,7 +348,7 @@ class App extends React.Component {
 
             <Typography>modulation amount</Typography>
             <SimpleSlider 
-              init={this.config.modAmount}
+              init={131}
               handleChange={this.setModAmount} 
               min={0}
               max={this.config.modAmountRange[1]}
@@ -333,7 +357,7 @@ class App extends React.Component {
 
             <Typography>modulation rate</Typography>
             <SimpleSlider 
-              init={this.config.modFrequency}
+              init={50}
               handleChange={this.setModRate} 
               min={0}
               max={this.config.modFrequencyRange[1]}
@@ -341,6 +365,17 @@ class App extends React.Component {
             />      
           </div>
         </div>
+
+        </AppBar>
+
+        
+
+
+        <main className={'main'}>
+          {beeps}
+        </main>
+        
+        
 
       </div>
       
@@ -454,6 +489,13 @@ function createEmptyRythm(numberBeats, numberNotes){
     arr.push(column);
   }
   return arr;
+}
+
+function calculateModFrequency(v){
+  return (v * (.001*v));
+}
+function calculateModAmount(v){
+  return (v * (.001*v));
 }
 
 export default withStyles(styles)(App);
