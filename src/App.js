@@ -151,7 +151,7 @@ class App extends React.Component {
       modAmount: 7.2,
       modAmountRange: [0,600,1],
       tempo: 75,
-      tempoRange: [1, 300, 1],
+      tempoRange: [1, 900, 1],
     };
 
 //init 50 157
@@ -196,7 +196,7 @@ class App extends React.Component {
   startRythm(){
     // this.timerId = setInterval(()=>{beep(),2000});
     if(!this.state.isPlaying){
-      this.timerId = setInterval(() => this.playBeat(), convertTempo(this.config.tempo));
+      this.timerId = setTimeout(() => this.playBeat(), convertTempo(this.config.tempo));
     }
     this.setState({isPlaying:true});
     
@@ -234,6 +234,8 @@ class App extends React.Component {
         curBeat: 0,
       });
     }
+
+    this.timerId = setTimeout(() => this.playBeat(), convertTempo(this.config.tempo));
     
   }
 
