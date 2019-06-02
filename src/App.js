@@ -151,7 +151,7 @@ class App extends React.Component {
       modAmount: 7.2,
       modAmountRange: [0,600,1],
       tempo: 75,
-      tempoRange: [1, 900, 1],
+      tempoRange: [1, 300, 1],
     };
 
 //init 50 157
@@ -239,6 +239,26 @@ class App extends React.Component {
     
   }
 
+  updateDimensions(){
+    let width = window.innerWidth;
+    
+  }
+
+  /**
+   * Add event listener
+   */
+  componentDidMount() {
+    this.updateDimensions();
+    window.addEventListener("resize", this.updateDimensions.bind(this));
+  }
+
+  /**
+   * Remove event listener
+   */
+  componentWillUnmount() {
+    window.removeEventListener("resize", this.updateDimensions.bind(this));
+  }
+
   settingsToggle(){
     this.setState({
       showControls: !this.state.showControls,
@@ -276,14 +296,18 @@ class App extends React.Component {
     // const { amplitude } = this.state.amplitude;
 
     const beeps = this.state.rythm.map((col, i)=>{
+      
       return (
-        <div className={'beep-col'} key={i}>
+        <div className={(Math.ceil((i + 1)/4)%2===0) ? 'beep-col even' : 'beep-col odd'} key={i}>
           {
           col.map((row, e)=>{
             let cn = (i === this.state.curBeat && this.state.isPlaying) ? 'active' : 'inactive';
             cn += (this.state.rythm[i][e] ? ' on' : ' off')
             return(
-              <div className={'beep'} onClick={()=>that.setBeat(i,e)} key={e}>
+              <div className={'beep'} 
+                onClick={()=>that.setBeat(i,e)} 
+                key={e}
+              >
                 <div className={'beep-inner ' + cn} />
               </div>
             );

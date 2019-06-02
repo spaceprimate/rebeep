@@ -17,16 +17,21 @@ div.beep-inner {
     background: rgb(41, 41, 41);
     border-radius: 2px
 }
+.beep-col.odd div.beep-inner{
+    background: rgb(61, 61, 61);
+}
 
-div.beep-inner.active {
+.beep-col div.beep-inner.active {
     background: rgb(107, 103, 100);
 }
 
-div.beep-inner.on {
+.beep-col div.beep-inner.on {
     background: orange;
+    background: url('beep.png');
+    background-size: 66px;
 }
 
-div.beep-inner.on.active {
+.beep-col div.beep-inner.on.active {
     background: rgb(255, 231, 186);
 }
 
