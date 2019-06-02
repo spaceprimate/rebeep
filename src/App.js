@@ -150,6 +150,8 @@ class App extends React.Component {
       modFrequencyRange: [0,200,1],
       modAmount: 7.2,
       modAmountRange: [0,600,1],
+      tempo: 75,
+      tempoRange: [1, 300, 1],
     };
 
 //init 50 157
@@ -181,6 +183,11 @@ class App extends React.Component {
     console.log(v);
   };
 
+  setTempo = (v) => {
+    this.config.tempo = v;
+    console.log(this.config.tempo);
+  };
+
   setModAmount = (v) => {
     this.config.modAmount = (v * (.001*v)); // initial values grow slowly
     console.log(v);
@@ -189,7 +196,7 @@ class App extends React.Component {
   startRythm(){
     // this.timerId = setInterval(()=>{beep(),2000});
     if(!this.state.isPlaying){
-      this.timerId = setInterval(() => this.playBeat(), 200);
+      this.timerId = setInterval(() => this.playBeat(), convertTempo(this.config.tempo));
     }
     this.setState({isPlaying:true});
     
@@ -362,7 +369,16 @@ class App extends React.Component {
               min={0}
               max={this.config.modFrequencyRange[1]}
               step={this.config.modFrequencyRange[2]}
-            />      
+            />
+
+            <Typography>tempo</Typography>
+            <SimpleSlider 
+              init={50}
+              handleChange={this.setTempo} 
+              min={this.config.tempoRange[0]}
+              max={this.config.tempoRange[1]}
+              step={this.config.tempoRange[2]}
+            />
           </div>
         </div>
 
@@ -496,6 +512,10 @@ function calculateModFrequency(v){
 }
 function calculateModAmount(v){
   return (v * (.001*v));
+}
+
+function convertTempo(t){
+  return 15000/t;
 }
 
 export default withStyles(styles)(App);
