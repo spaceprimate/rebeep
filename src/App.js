@@ -129,6 +129,8 @@ class App extends React.Component {
       isPlaying : false,
       amplitude : 50,
       showControls: false,
+      windowHeight: undefined,
+      windowWidth: undefined,
     };
 
     
@@ -239,24 +241,24 @@ class App extends React.Component {
     
   }
 
-  updateDimensions(){
-    let width = window.innerWidth;
-    
-  }
+  handleResize = () => this.setState({
+    windowHeight: window.innerHeight,
+    windowWidth: window.innerWidth
+  });
 
   /**
    * Add event listener
    */
   componentDidMount() {
-    this.updateDimensions();
-    window.addEventListener("resize", this.updateDimensions.bind(this));
+    this.handleResize();
+    window.addEventListener('resize', this.handleResize)
   }
 
   /**
    * Remove event listener
    */
   componentWillUnmount() {
-    window.removeEventListener("resize", this.updateDimensions.bind(this));
+    window.removeEventListener('resize', this.handleResize)
   }
 
   settingsToggle(){
@@ -351,8 +353,8 @@ class App extends React.Component {
 
           <div className={'controls'} hidden={!this.state.showControls}>
           <div className={classes.sliderWrap + ' slider'}>
-            <Typography>amplitude</Typography>
               <SimpleSlider 
+                name={'amplitude'}
                 init={this.config.amplitude}
                 handleChange={this.setAmplitude} 
                 min={0}
@@ -360,8 +362,8 @@ class App extends React.Component {
                 step={this.config.amplitudeRange[2]}
               />
 
-            <Typography>attack</Typography>
             <SimpleSlider 
+              name={'attack'}
               init={this.config.attack}
               handleChange={this.setAttack} 
               min={0}
@@ -369,8 +371,8 @@ class App extends React.Component {
               step={this.config.attackRange[2]}
             />
 
-            <Typography>decay</Typography>
             <SimpleSlider 
+              name={'decay'}
               init={this.config.decay}
               handleChange={this.setDecay} 
               min={0}
@@ -379,8 +381,8 @@ class App extends React.Component {
               step={this.config.decayRange[2]}
             />
 
-            <Typography>modulation amount</Typography>
             <SimpleSlider 
+              name={'modulation amount'}
               init={131}
               handleChange={this.setModAmount} 
               min={0}
@@ -388,8 +390,8 @@ class App extends React.Component {
               step={this.config.modAmountRange[2]}
             />
 
-            <Typography>modulation rate</Typography>
             <SimpleSlider 
+              name={'modulation rate'}
               init={50}
               handleChange={this.setModRate} 
               min={0}
@@ -397,9 +399,9 @@ class App extends React.Component {
               step={this.config.modFrequencyRange[2]}
             />
 
-            <Typography>tempo</Typography>
             <SimpleSlider 
-              init={50}
+              name={'tempo'}
+              init={75}
               handleChange={this.setTempo} 
               min={this.config.tempoRange[0]}
               max={this.config.tempoRange[1]}
@@ -416,7 +418,9 @@ class App extends React.Component {
         <main className={'main'}>
           {beeps}
         </main>
-        
+        <p className={'ptest'}>
+          {this.state.windowWidth} x {this.state.windowHeight}
+        </p>
         
 
       </div>
@@ -443,15 +447,17 @@ class SimpleSlider extends React.Component{
     const { value } = this.state;
 
     return (
-    
-        <StyledSlider
-          className = {"slider"}
-          value={value}
-          min={this.props.min}
-          max={this.props.max}
-          step={this.props.step}
-          onChange={this.handleChange}
-        />
+        <div>
+            <Typography>{this.props.name}: {value}</Typography>
+          <StyledSlider
+            className = {"slider"}
+            value={value}
+            min={this.props.min}
+            max={this.props.max}
+            step={this.props.step}
+            onChange={this.handleChange}
+          />
+        </div>
       
     );
   }
@@ -512,6 +518,8 @@ function beep(config, freq) {
       }
   }, decay);
 }
+
+
 
 App.propTypes = {
   classes: PropTypes.object.isRequired,

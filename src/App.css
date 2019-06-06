@@ -45,9 +45,11 @@ body .beep.active p {
     height: 1px;
 }
 
-.slider {
+body .slider {
     clear: both;
     padding: 12px 0;
+    width: 300px;
+    touch-action: none;
 }
 
 .controls {
@@ -59,7 +61,7 @@ body .beep.active p {
     fill: orange;
 }
 
-body .slider>p {
+body .slider p {
     color: #737373;
 }
 
@@ -85,5 +87,10 @@ body .playstop svg {
 }
 
 .main {
-    margin-top: 78px;
+    width: 400px; 
+    margin: 24px auto 0 auto;
 }
+
+.ptest{clear:both; color: orangered; display: none;}
+
+.orange-text{color: orange;}
