@@ -75,39 +75,45 @@ body .slider p {
 }
 
 body .appbar {
-    background: #0c0c0c;
+    background: #0c0c0ccc;
     color: orange;
     border-bottom: 1px solid #1f1f1f;
     display:block;
-    position: relative;
+    
 }
 
 body .toolbar {
     min-height: 52px;
+    display: block;
 }
 
 body .toolbar .playstop {
-    width: 70px;
+    width: 118px;
     margin: 0 auto;
 }
 
-body .playstop svg {
-    font-size: 32px;
-    color:black;
-}
 
 .main {
     width: 400px; 
-    margin: 24px auto 0 auto;
+    margin: 74px auto 0 auto;
 }
 
 .ptest{clear:both; color: orangered; display: none;}
 
 .orange-text{color: orange;}
 
-
+body .playstop svg {
+    font-size: 32px;
+    padding: 9px;
+}
+body .playstop span{
+    padding: 4px;
+    /* display: inline-block; */
+}
+/* body .playstop span:hidden{display: none;} */
+/* 
 .playicon path:first-child,
 .settingsicon path:nth-child(2),
 .stopicon path:nth-child(2){
     stroke: orange;
-}
+} */

@@ -1,10 +1,11 @@
 import React from 'react';
 import './App.css';
 
-import PlayArrowIcon from '@material-ui/icons/PlayArrow';
-import StopIcon from '@material-ui/icons/Stop';
-import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import SettingsIcon from '@material-ui/icons/Settings';
+import PlayArrowIcon from '@material-ui/icons/PlayArrowOutlined';
+import StopIcon from '@material-ui/icons/StopOutlined';
+import ExpandLess from '@material-ui/icons/ExpandLess';
+
+import SettingsIcon from '@material-ui/icons/SettingsOutlined';
 import { Typography } from '@material-ui/core';
 import Slider from '@material-ui/lab/Slider';
 import List from '@material-ui/core/List';
@@ -327,23 +328,30 @@ class App extends React.Component {
         <AppBar className={'appbar'}>
           <Toolbar className={'toolbar'} >
           <div className="playstop">
+            
             <span hidden={this.state.isPlaying}>
             <PlayArrowIcon 
               onClick={()=>{this.startRythm()}} 
-              className={'playicon'}
+              
             />
             </span>
             <span hidden={!this.state.isPlaying}>
               <StopIcon 
                 onClick={()=>{this.stopRythm()}} 
-                className={'stopicon'}
+                
                 hidden={!this.state.isPlaying}
               />
             </span>
-            <span>
+            <span hidden={this.state.showControls}>
               <SettingsIcon 
                 onClick={()=>{this.settingsToggle()}}
-                className={'settingsicon'}
+                
+              />
+            </span>
+            <span hidden={!this.state.showControls}>
+              <ExpandLess
+                onClick={()=>{this.settingsToggle()}}
+                
               />
             </span>
             
