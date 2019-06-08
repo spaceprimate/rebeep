@@ -92,6 +92,7 @@ const StyledSlider = withStyles({
     height: 18,
     width: 18,
     backgroundColor: '#000',
+    boxShadow: 'orange 0px 0px 11px 1px',
     border: '1px solid #FFA500',
     '&$focused, &:hover': {
       boxShadow: `0px 0px 0px ${8}px ${fade('#FFA500', 0.16)}`,
@@ -106,6 +107,9 @@ const StyledSlider = withStyles({
   track: {
     backgroundColor: '#FFA500',
     height: 3,
+  },
+  trackBefore: {
+    boxShadow: 'orange -7px 0px 11px 1px',
   },
   trackAfter: {
     backgroundColor: '#d0d7dc',

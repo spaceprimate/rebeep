@@ -14,21 +14,30 @@ div.beep {
 div.beep-inner {
     height: 20px;
     width: 20px;
-    background: rgb(41, 41, 41);
+    /* background: rgb(41, 41, 41); */
+    border: #73541a 1px solid;
     border-radius: 2px
 }
 .beep-col.odd div.beep-inner{
-    background: rgb(61, 61, 61);
+    /* background: rgb(61, 61, 61); */
+    border: #463d2d 1px solid;
+}
+
+.beep-col.odd div.beep-inner:hover, .beep-col div.beep-inner:hover{
+    border-color: orange !important;
 }
 
 .beep-col div.beep-inner.active {
-    background: rgb(107, 103, 100);
+    /* background: rgba(255, 177, 118, 0.24); */
+    border-color: orange !important;
+
 }
 
 .beep-col div.beep-inner.on {
     background: orange;
     background: url('beep.png');
     background-size: 66px;
+    box-shadow: orange 0px 0px 11px 1px,
 }
 
 .beep-col div.beep-inner.on.active {
