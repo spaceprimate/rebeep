@@ -37,7 +37,7 @@ div.beep-inner {
     background: orange;
     background: url('beep.png');
     background-size: 66px;
-    box-shadow: orange 0px 0px 11px 1px,
+    box-shadow: orange 0px 0px 11px 1px;
 }
 
 .beep-col div.beep-inner.on.active {
@@ -93,6 +93,7 @@ body .toolbar .playstop {
 
 body .playstop svg {
     font-size: 32px;
+    color:black;
 }
 
 .main {
@@ -103,3 +104,10 @@ body .playstop svg {
 .ptest{clear:both; color: orangered; display: none;}
 
 .orange-text{color: orange;}
+
+
+.playicon path:first-child,
+.settingsicon path:nth-child(2),
+.stopicon path:nth-child(2){
+    stroke: orange;
+}

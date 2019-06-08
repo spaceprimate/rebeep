@@ -4,7 +4,7 @@ import './App.css';
 import PlayArrowIcon from '@material-ui/icons/PlayArrow';
 import StopIcon from '@material-ui/icons/Stop';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import SettingsIcon from '@material-ui/icons/SettingsApplications';
+import SettingsIcon from '@material-ui/icons/Settings';
 import { Typography } from '@material-ui/core';
 import Slider from '@material-ui/lab/Slider';
 import List from '@material-ui/core/List';
@@ -73,9 +73,6 @@ const styles = {
   },
   slider: {
     padding: '22px 0px',
-  },
-  icon:{
-    color: 'orange',
   },
   toolbarIcon: {
     display: 'flex',
@@ -333,19 +330,20 @@ class App extends React.Component {
             <span hidden={this.state.isPlaying}>
             <PlayArrowIcon 
               onClick={()=>{this.startRythm()}} 
-              className={classes.icon}
+              className={'playicon'}
             />
             </span>
             <span hidden={!this.state.isPlaying}>
               <StopIcon 
                 onClick={()=>{this.stopRythm()}} 
-                className={classes.icon}
+                className={'stopicon'}
                 hidden={!this.state.isPlaying}
               />
             </span>
             <span>
               <SettingsIcon 
                 onClick={()=>{this.settingsToggle()}}
+                className={'settingsicon'}
               />
             </span>
             
