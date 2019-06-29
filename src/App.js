@@ -458,7 +458,7 @@ class SimpleSlider extends React.Component{
 
     return (
         <div>
-            <Typography>{this.props.name}: {value}</Typography>
+            <Typography>{this.props.name}</Typography>
           <StyledSlider
             className = {"slider"}
             value={value}
