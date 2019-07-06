@@ -74,6 +74,16 @@ body .slider p {
     color: #737373;
 }
 
+
+/*
+d888888b  .d88b.   .d88b.  db      d8888b.  .d8b.  d8888b. 
+`~~88~~' .8P  Y8. .8P  Y8. 88      88  `8D d8' `8b 88  `8D 
+   88    88    88 88    88 88      88oooY' 88ooo88 88oobY' 
+   88    88    88 88    88 88      88~~~b. 88~~~88 88`8b   
+   88    `8b  d8' `8b  d8' 88booo. 88   8D 88   88 88 `88. 
+   YP     `Y88P'   `Y88P'  Y88888P Y8888P' YP   YP 88   YD 
+
+*/
 body .appbar {
     background: #0c0c0ccc;
     color: orange;
@@ -85,11 +95,42 @@ body .appbar {
 body .toolbar {
     min-height: 52px;
     display: block;
+    position: relative;
 }
 
 body .toolbar .playstop {
     width: 118px;
-    margin: 0 auto;
+    margin: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+body .toolbar .tempo-slider{
+    width: 342px; position: absolute; top: 0; right: 24px;
+
+}
+body .toolbar .tempo-slider p{
+    position: absolute;
+    color: #606265;
+    left: 0;
+    top: 18px;
+}
+body .toolbar .tempo-slider .slider{
+    position: absolute;
+    right: 0;
+    top: 16px;
+}
+
+
+
+body .playstop svg {
+    font-size: 32px;
+    padding: 9px;
+}
+body .playstop span{
+    padding: 4px;
+    /* display: inline-block; */
 }
 
 
@@ -102,18 +143,4 @@ body .toolbar .playstop {
 
 .orange-text{color: orange;}
 
-body .playstop svg {
-    font-size: 32px;
-    padding: 9px;
-}
-body .playstop span{
-    padding: 4px;
-    /* display: inline-block; */
-}
-/* body .playstop span:hidden{display: none;} */
-/* 
-.playicon path:first-child,
-.settingsicon path:nth-child(2),
-.stopicon path:nth-child(2){
-    stroke: orange;
-} */
+

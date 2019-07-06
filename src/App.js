@@ -118,7 +118,18 @@ const StyledSlider = withStyles({
 })(Slider);
 
 
-
+/*
+===================================================================================================
+===================================================================================================
+ .d8b.  d8888b. d8888b. 
+d8' `8b 88  `8D 88  `8D 
+88ooo88 88oodD' 88oodD' 
+88~~~88 88~~~   88~~~   
+88   88 88      88      
+YP   YP 88      88      
+===================================================================================================
+===================================================================================================                               
+*/
 class App extends React.Component {
 
   constructor(props){
@@ -132,8 +143,10 @@ class App extends React.Component {
       amplitude : 50,
       showControls: false,
       windowHeight: undefined,
-      windowWidth: undefined,
+      windowWidth: undefined
     };
+
+    this.mouseIsDown = false;
 
     
     this.timerId = null;
@@ -147,8 +160,8 @@ class App extends React.Component {
       decayRange: [0,2000,10],
       frequency: 440,
       type: "sine",
-      amplitude: .2,
-      amplitudeRange: [0,.4,.01],
+      amplitude: .15,
+      amplitudeRange: [0,.35,.01],
       modType: "sine",
       modFrequency: 22,
       modFrequencyRange: [0,200,1],
@@ -162,7 +175,18 @@ class App extends React.Component {
     
   }
 
-
+/*
+===================================================================================================
+===================================================================================================
+ .d8b.  d8888b. d8888b.      .88b  d88. d88888b d888888b db   db  .d88b.  d8888b. .d8888. 
+d8' `8b 88  `8D 88  `8D      88'YbdP`88 88'     `~~88~~' 88   88 .8P  Y8. 88  `8D 88'  YP 
+88ooo88 88oodD' 88oodD'      88  88  88 88ooooo    88    88ooo88 88    88 88   88 `8bo.   
+88~~~88 88~~~   88~~~        88  88  88 88~~~~~    88    88~~~88 88    88 88   88   `Y8b. 
+88   88 88      88           88  88  88 88.        88    88   88 `8b  d8' 88  .8D db   8D 
+YP   YP 88      88           YP  YP  YP Y88888P    YP    YP   YP  `Y88P'  Y8888D' `8888Y'
+===================================================================================================
+===================================================================================================                               
+*/
 
   setAmplitude = (v) => {
     this.config.amplitude = v;
@@ -273,7 +297,27 @@ class App extends React.Component {
     let myRythm = this.state.rythm.slice();
     myRythm[col][row] = !this.state.rythm[col][row];
     this.setState({myRythm});
+    
   };
+
+  handleMouseDown(col,row){
+    this.mouseIsDown = true;
+    this.setBeat(col,row);
+  }
+
+  handleMouseUp(){
+    this.mouseIsDown = false;
+  }
+
+  handleMouseEnter(col,row){
+    if(this.mouseIsDown){
+      this.setBeat(col,row);
+    }
+  }
+
+  handleMouseOut(){
+    this.mouseIsDown = false;
+  }
 
   beep = (freq) => {
     let config = {
@@ -292,6 +336,19 @@ class App extends React.Component {
 
   };
 
+
+/*
+===================================================================================================
+===================================================================================================
+ .d8b.  d8888b. d8888b.                  d8888b. d88888b d8b   db d8888b. d88888b d8888b. 
+d8' `8b 88  `8D 88  `8D                  88  `8D 88'     888o  88 88  `8D 88'     88  `8D 
+88ooo88 88oodD' 88oodD'                  88oobY' 88ooooo 88V8o 88 88   88 88ooooo 88oobY' 
+88~~~88 88~~~   88~~~        C8888D      88`8b   88~~~~~ 88 V8o88 88   88 88~~~~~ 88`8b   
+88   88 88      88                       88 `88. 88.     88  V888 88  .8D 88.     88 `88. 
+YP   YP 88      88                       88   YD Y88888P VP   V8P Y8888D' Y88888P 88   YD 
+===================================================================================================
+===================================================================================================                               
+*/
   render(){
     let that = this;
 
@@ -309,7 +366,10 @@ class App extends React.Component {
             cn += (this.state.rythm[i][e] ? ' on' : ' off')
             return(
               <div className={'beep'} 
-                onClick={()=>that.setBeat(i,e)} 
+                onMouseDown={()=>that.handleMouseDown(i,e)} 
+                onMouseEnter={()=>that.handleMouseEnter(i,e)}
+                onMouseUp={()=>that.handleMouseUp(i,e)}
+                
                 key={e}
               >
                 <div className={'beep-inner ' + cn} />
@@ -321,10 +381,21 @@ class App extends React.Component {
       )
     });
 
-    
+/*
+===================================================================================================
+===================================================================================================
+ .d8b.  d8888b. d8888b.                  d8888b. d88888b d888888b db    db d8888b. d8b   db 
+d8' `8b 88  `8D 88  `8D                  88  `8D 88'     `~~88~~' 88    88 88  `8D 888o  88 
+88ooo88 88oodD' 88oodD'                  88oobY' 88ooooo    88    88    88 88oobY' 88V8o 88 
+88~~~88 88~~~   88~~~        C8888D      88`8b   88~~~~~    88    88    88 88`8b   88 V8o88 
+88   88 88      88                       88 `88. 88.        88    88b  d88 88 `88. 88  V888 
+YP   YP 88      88                       88   YD Y88888P    YP    ~Y8888P' 88   YD VP   V8P 
+===================================================================================================
+===================================================================================================                               
+*/
     return (
       
-      <div>
+      <div >
         <AppBar className={'appbar'}>
           <Toolbar className={'toolbar'} >
           <div className="playstop">
@@ -355,7 +426,22 @@ class App extends React.Component {
               />
             </span>
             
+            
+            
+            
           </div>
+
+          <div className={'tempo-slider'}>
+          <SimpleSlider 
+              name={'BPM'}
+              init={75}
+              handleChange={this.setTempo} 
+              min={this.config.tempoRange[0]}
+              max={this.config.tempoRange[1]}
+              step={this.config.tempoRange[2]}              
+            />
+          </div>
+  
           
           {/* <span onClick={()=>{this.startRythm()}}>Play</span> */}
           {/* <span onClick={()=>{this.stopRythm()}}>Stop</span> */}
@@ -409,14 +495,7 @@ class App extends React.Component {
               step={this.config.modFrequencyRange[2]}
             />
 
-            <SimpleSlider 
-              name={'tempo'}
-              init={75}
-              handleChange={this.setTempo} 
-              min={this.config.tempoRange[0]}
-              max={this.config.tempoRange[1]}
-              step={this.config.tempoRange[2]}
-            />
+            
           </div>
         </div>
 
@@ -425,7 +504,7 @@ class App extends React.Component {
         
 
 
-        <main className={'main'}>
+        <main className={'main'} >
           {beeps}
         </main>
         <p className={'ptest'}>
@@ -441,6 +520,18 @@ class App extends React.Component {
   
 }
 
+/*
+===================================================================================================
+===================================================================================================
+.d8888. d888888b .88b  d88. d8888b. db      d88888b      .d8888. db      d888888b d8888b. d88888b d8888b. 
+88'  YP   `88'   88'YbdP`88 88  `8D 88      88'          88'  YP 88        `88'   88  `8D 88'     88  `8D 
+`8bo.      88    88  88  88 88oodD' 88      88ooooo      `8bo.   88         88    88   88 88ooooo 88oobY' 
+  `Y8b.    88    88  88  88 88~~~   88      88~~~~~        `Y8b. 88         88    88   88 88~~~~~ 88`8b   
+db   8D   .88.   88  88  88 88      88booo. 88.          db   8D 88booo.   .88.   88  .8D 88.     88 `88. 
+`8888Y' Y888888P YP  YP  YP 88      Y88888P Y88888P      `8888Y' Y88888P Y888888P Y8888D' Y88888P 88   YD 
+===================================================================================================
+===================================================================================================                               
+*/
 class SimpleSlider extends React.Component{
 
   state = {
@@ -476,8 +567,17 @@ class SimpleSlider extends React.Component{
 
 
 
-
-
+/*
+===================================================================================================
+===================================================================================================
+d8888b. d88888b d88888b d8888b. 
+88  `8D 88'     88'     88  `8D 
+88oooY' 88ooooo 88ooooo 88oodD' 
+88~~~b. 88~~~~~ 88~~~~~ 88~~~   
+88   8D 88.     88.     88      
+Y8888P' Y88888P Y88888P 88                                
+===================================================================================================
+===================================================================================================*/
 /** 
  * makes a beep sound
  * 
@@ -487,6 +587,7 @@ class SimpleSlider extends React.Component{
  * @param {*} config - settings for this track
  * @param {*} freq - frequency adjustment for this beat
  */
+
 function beep(config, freq) {
   var attack = config.attack,
       decay = config.decay,
@@ -534,6 +635,20 @@ function beep(config, freq) {
 App.propTypes = {
   classes: PropTypes.object.isRequired,
 };
+
+
+/*
+===================================================================================================
+===================================================================================================
+db    db d888888b d888888b db      .d8888. 
+88    88 `~~88~~'   `88'   88      88'  YP 
+88    88    88       88    88      `8bo.   
+88    88    88       88    88        `Y8b. 
+88b  d88    88      .88.   88booo. db   8D 
+~Y8888P'    YP    Y888888P Y88888P `8888Y' 
+===================================================================================================
+===================================================================================================                               
+*/
 
 /**
  * Creates an empty 2 dimensional array representing the rythm
