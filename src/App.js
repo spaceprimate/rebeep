@@ -6,6 +6,7 @@ import StopIcon from '@material-ui/icons/StopOutlined';
 import ExpandLess from '@material-ui/icons/ExpandLess';
 
 import SettingsIcon from '@material-ui/icons/SettingsOutlined';
+import ClearIcon from '@material-ui/icons/Clear';
 import { Typography } from '@material-ui/core';
 import Slider from '@material-ui/lab/Slider';
 import List from '@material-ui/core/List';
@@ -84,7 +85,18 @@ const styles = {
   },
 };
 
-
+/*
+===================================================================================================
+===================================================================================================
+.d8888. d888888b db    db db      d88888b .d8888. 
+88'  YP `~~88~~' `8b  d8' 88      88'     88'  YP 
+`8bo.      88     `8bd8'  88      88ooooo `8bo.   
+  `Y8b.    88       88    88      88~~~~~   `Y8b. 
+db   8D    88       88    88booo. 88.     db   8D 
+`8888Y'    YP       YP    Y88888P Y88888P `8888Y' 
+===================================================================================================
+===================================================================================================                               
+*/
 const StyledSlider = withStyles({
   thumb: {
     height: 18,
@@ -356,6 +368,19 @@ YP   YP 88      88                       88   YD Y88888P VP   V8P Y8888D' Y88888
     //slider
     // const { amplitude } = this.state.amplitude;
 
+    //handle open/closed state for controls and main sections
+    const controlsClassName = (() => {
+      let classname = (this.state.showControls ? 'open ' : 'closed ');
+      classname += 'controls';
+      return classname;
+    })();
+
+    const mainClassName = (() => {
+      let classname = (this.state.showControls ? 'show-controls ' : '');
+      classname += 'main';
+      return classname;
+    })();
+
     const beeps = this.state.rythm.map((col, i)=>{
       
       return (
@@ -413,22 +438,12 @@ YP   YP 88      88                       88   YD Y88888P    YP    ~Y8888P' 88   
                 hidden={!this.state.isPlaying}
               />
             </span>
-            <span hidden={this.state.showControls}>
+            <span>
               <SettingsIcon 
                 onClick={()=>{this.settingsToggle()}}
-                
               />
             </span>
-            <span hidden={!this.state.showControls}>
-              <ExpandLess
-                onClick={()=>{this.settingsToggle()}}
-                
-              />
-            </span>
-            
-            
-            
-            
+
           </div>
 
           <div className={'tempo-slider'}>
@@ -447,7 +462,17 @@ YP   YP 88      88                       88   YD Y88888P    YP    ~Y8888P' 88   
           {/* <span onClick={()=>{this.stopRythm()}}>Stop</span> */}
           </Toolbar>
 
-          <div className={'controls'} hidden={!this.state.showControls}>
+          
+
+        </AppBar>
+
+        <div className={controlsClassName}>
+          <div className={'toolbar'}>
+            <ClearIcon className={'pull-right'}
+                onClick={()=>{this.settingsToggle()}}
+                
+              />
+          </div>
           <div className={classes.sliderWrap + ' slider'}>
               <SimpleSlider 
                 name={'amplitude'}
@@ -499,12 +524,10 @@ YP   YP 88      88                       88   YD Y88888P    YP    ~Y8888P' 88   
           </div>
         </div>
 
-        </AppBar>
-
         
 
 
-        <main className={'main'} >
+        <main className={mainClassName} >
           {beeps}
         </main>
         <p className={'ptest'}>
@@ -593,13 +616,20 @@ function beep(config, freq) {
       decay = config.decay,
       gain = audio.createGain(),
       osc = audio.createOscillator(),
+      // biquadFilter = audio.createBiquadFilter(),
       maxGain = config.amplitude,
       modAmount  = config.modAmount;
 
+  // biquadFilter.connect(gain);
   gain.connect(audio.destination);
   gain.gain.setValueAtTime(0, audio.currentTime);
   gain.gain.linearRampToValueAtTime(maxGain, audio.currentTime + attack / 1000);
   gain.gain.linearRampToValueAtTime(0, audio.currentTime + decay / 1000);
+
+  // biquadFilter.type = "lowshelf";
+  // biquadFilter.frequency.setValueAtTime(5000, audio.currentTime);
+  // biquadFilter.gain.setValueAtTime(100, audio.currentTime);
+
 
   // console.log("config: " + config.frequency + ", freq: " + freq);
   osc.frequency.value = config.frequency + freq;

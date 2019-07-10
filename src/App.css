@@ -54,25 +54,8 @@ body .beep.active p {
     height: 1px;
 }
 
-body .slider {
-    clear: both;
-    padding: 12px 0;
-    width: 300px;
-    touch-action: none;
-}
+.pull-right{float:right;}
 
-.controls {
-    width: 300px;
-    margin: auto;   
-}
-
-.icon {
-    fill: orange;
-}
-
-body .slider p {
-    color: #737373;
-}
 
 
 /*
@@ -137,10 +120,71 @@ body .playstop span{
 .main {
     width: 400px; 
     margin: 74px auto 0 auto;
+    padding-left: 0;
 }
 
 .ptest{clear:both; color: orangered; display: none;}
 
 .orange-text{color: orange;}
 
+
+
+/* 
+ .o88b.  .d88b.  d8b   db d888888b d8888b.  .d88b.  db      .d8888. 
+d8P  Y8 .8P  Y8. 888o  88 `~~88~~' 88  `8D .8P  Y8. 88      88'  YP 
+8P      88    88 88V8o 88    88    88oobY' 88    88 88      `8bo.   
+8b      88    88 88 V8o88    88    88`8b   88    88 88        `Y8b. 
+Y8b  d8 `8b  d8' 88  V888    88    88 `88. `8b  d8' 88booo. db   8D 
+ `Y88P'  `Y88P'  VP   V8P    YP    88   YD  `Y88P'  Y88888P `8888Y' 
+*/
+
+body .slider {
+    clear: both;
+    padding: 12px 0;
+    width: 300px;
+    touch-action: none;
+}
+
+.controls {
+    width: 300px;
+    margin: auto;  
+    position: fixed;
+    top: 53px;
+    left: 0;
+    bottom: 0;
+    padding: 0 22px;
+    background: #2f2f2f8a;
+    transition: margin-left 200ms ease-in-out;
+}
+
+.icon {
+    fill: orange;
+}
+
+body .slider p {
+    color: #737373;
+}
+
+
+.controls.open{
+    display:block;
+    margin-left: 0;
+}
+.controls.closed{
+    display:block;
+    margin-left: -330px;
+}
+.main.show-controls{
+    padding-left: 300px;
+    transition: padding-left 200ms ease-in-out;
+}
+
+.controls .toolbar{
+    color:orange;
+    padding: 5px 12px 8px 0;
+    border-bottom: 1px solid #252525;
+    overflow: hidden;
+    margin: 0 -22px;
+    min-height: 24px;
+}
 
