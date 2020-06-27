@@ -188,3 +188,9 @@ body .slider p {
     min-height: 24px;
 }
 
+/*
+KEYS
+*/
+#keyboard{clear: both; width: 100%; min-height: 18px; background-color: chartreuse;}
+#keyboard .key{width: 18px; height: 18px; background-color: orangered; display: inline-block; margin-left: 8px;}
+

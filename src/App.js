@@ -533,6 +533,12 @@ YP   YP 88      88                       88   YD Y88888P    YP    ~Y8888P' 88   
         <p className={'ptest'}>
           {this.state.windowWidth} x {this.state.windowHeight}
         </p>
+
+        <div id={"keyboard-wrapper"}>
+          <Keyboard
+            config = {this.config}
+          />
+        </div>
         
 
       </div>
@@ -588,6 +594,49 @@ class SimpleSlider extends React.Component{
 
 }
 
+class Keyboard extends  React.Component{
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      value: this.props.init,
+      freq: 415.305
+    };
+
+    this.handleDown = this.handleDown.bind(this);
+    this.handleUp = this.handleUp.bind(this);
+
+    this.beep = undefined;
+  }
+
+
+
+
+
+
+  handleDown(){
+    this.beep = new beep(this.props.config, this.state.freq, true);
+  }
+
+  handleUp(){
+    this.beep.kill();
+  }
+
+
+
+  render() {
+    return (
+        <div id={"keyboard"}>
+          <div className={"key"}
+            onMouseDown={this.handleDown} onMouseUp={this.handleUp}
+          ></div>
+          <div className={"key"} onClick={this.handleUp}></div>
+        </div>
+    );
+  }
+
+}
+
 
 
 /*
@@ -609,21 +658,33 @@ Y8888P' Y88888P Y88888P 88
  * 
  * @param {*} config - settings for this track
  * @param {*} freq - frequency adjustment for this beat
+ * @param {boolean} keyboard - if this value isn't undefined and is true, this
+ *                  beep will be sustained until kill is called on it.
  */
 
-function beep(config, freq) {
+function beep(config, freq, keyboard) {
+  // var keyboard = false;
+
+
   var attack = config.attack,
       decay = config.decay,
       gain = audio.createGain(),
       osc = audio.createOscillator(),
       // biquadFilter = audio.createBiquadFilter(),
       maxGain = config.amplitude,
-      modAmount  = config.modAmount;
+      modAmount  = config.modAmount,
+      isKeyboard = false;
+
+  if (keyboard !== undefined && keyboard){
+    decay = 1000000;
+    isKeyboard = true;
+  }
 
   // biquadFilter.connect(gain);
   gain.connect(audio.destination);
   gain.gain.setValueAtTime(0, audio.currentTime);
   gain.gain.linearRampToValueAtTime(maxGain, audio.currentTime + attack / 1000);
+
   gain.gain.linearRampToValueAtTime(0, audio.currentTime + decay / 1000);
 
   // biquadFilter.type = "lowshelf";
@@ -648,16 +709,30 @@ function beep(config, freq) {
       osc2.start(0);
 
   }
-
-  setTimeout(function() {
+  if(!isKeyboard){
+    setTimeout(function() {
       osc.stop(0);
       osc.disconnect(gain);
       gain.disconnect(audio.destination);
       if (config.modType !== 'none'){
-          osc2.stop(0);
-          gain2.disconnect(osc.frequency);
+        osc2.stop(0);
+        gain2.disconnect(osc.frequency);
       }
-  }, decay);
+    }, decay);
+  }
+
+
+  this.kill = ()=>{
+    osc.stop(0);
+    osc.disconnect(gain);
+    gain.disconnect(audio.destination);
+    if (config.modType !== 'none'){
+      osc2.stop(0);
+      gain2.disconnect(osc.frequency);
+    }
+  };
+
+
 }
 
 
