@@ -664,7 +664,8 @@ class Key extends React.Component{
 
   handleUp(){
     if(this.state.active){
-      this.beep.kill();
+      // this.beep.kill();
+      this.beep.fadeOut();
       this.setState({active:false});
     }
 
@@ -672,7 +673,7 @@ class Key extends React.Component{
 
   handleOut(){
     if(this.state.active){
-      this.beep.kill();
+      this.beep.fadeOut();
       this.setState({active:false});
     }
   }
@@ -833,7 +834,9 @@ function Beep(config, freq, keyboard) {
       isKeyboard = false;
 
   if (keyboard !== undefined && keyboard){
-    decay = 1000000;
+    // decay = 1000000;
+    console.log("config.decay");
+    console.log(config.decay);
     isKeyboard = true;
   }
 
@@ -842,7 +845,11 @@ function Beep(config, freq, keyboard) {
   gain.gain.setValueAtTime(0, audio.currentTime);
   gain.gain.linearRampToValueAtTime(maxGain, audio.currentTime + attack / 1000);
 
-  gain.gain.linearRampToValueAtTime(0, audio.currentTime + decay / 1000);
+  // only implement decay for beats, not keys. Keys are handled below
+  if(keyboard === undefined || !keyboard){
+    gain.gain.linearRampToValueAtTime(0, audio.currentTime + decay / 1000);
+  }
+
 
   // biquadFilter.type = "lowshelf";
   // biquadFilter.frequency.setValueAtTime(5000, audio.currentTime);
@@ -887,6 +894,13 @@ function Beep(config, freq, keyboard) {
       osc2.stop(0);
       gain2.disconnect(osc.frequency);
     }
+    console.log("kill called");
+  };
+
+  this.fadeOut = () =>{
+    gain.gain.linearRampToValueAtTime(0, audio.currentTime + config.decay / 1000);
+    setTimeout(this.kill, config.decay);
+    // gain.gain.linearRampToValueAtTime(0, audio.currentTime + decay / 1000);
   };
 
 
