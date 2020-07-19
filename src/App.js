@@ -201,6 +201,24 @@ class App extends React.Component {
       tempoRange: [1, 300, 1],
     };
 
+    this.configKeys = {
+      attack: 10,
+      attackRange: [0,2000,10],
+      decay: 1100,
+      decayRange: [0,2000,10],
+      frequency: 440,
+      type: "sine",
+      amplitude: .15,
+      amplitudeRange: [0,.35,.01],
+      modType: "sine",
+      modFrequency: 22,
+      modFrequencyRange: [0,200,1],
+      modAmount: 7.2,
+      modAmountRange: [0,600,1],
+      tempo: 75,
+      tempoRange: [1, 300, 1],
+    };
+
 //init 50 157
     
   }
@@ -248,6 +266,40 @@ YP   YP 88      88           YP  YP  YP Y88888P    YP    YP   YP  `Y88P'  Y8888D
 
   setModAmount = (v) => {
     this.config.modAmount = (v * (.001*v)); // initial values grow slowly
+    console.log(v);
+  };
+
+  //todo: eventually this should have such redundant code:
+  setKeysKeysAmplitude = (v) => {
+    this.configKeys.amplitude = v;
+  };
+
+
+
+  setKeysAttack = (v) => {
+    this.configKeys.attack = v;
+  };
+
+  setKeysDecay = (v) => {
+    this.configKeys.decay = v;
+  };
+
+  setKeysAmplitude = (v) => {
+    this.configKeys.amplitude = v;
+  };
+
+  setKeysModRate = (v) => {
+    this.configKeys.modFrequency = (v * (.005*v)); // initial values grow slowly
+    console.log(v);
+  };
+
+  setKeysTempo = (v) => {
+    this.configKeys.tempo = v;
+    console.log(this.config.tempo);
+  };
+
+  setKeysModAmount = (v) => {
+    this.configKeys.modAmount = (v * (.001*v)); // initial values grow slowly
     console.log(v);
   };
 
@@ -491,55 +543,30 @@ YP   YP 88      88                       88   YD Y88888P    YP    ~Y8888P' 88   
                 
               />
           </div>
-          <div className={classes.sliderWrap + ' slider'}>
-              <SimpleSlider 
-                name={'amplitude'}
-                init={this.config.amplitude}
-                handleChange={this.setAmplitude} 
-                min={0}
-                max={this.config.amplitudeRange[1]}
-                step={this.config.amplitudeRange[2]}
-              />
 
-            <SimpleSlider 
-              name={'attack'}
-              init={this.config.attack}
-              handleChange={this.setAttack} 
-              min={0}
-              max={this.config.attackRange[1]}
-              step={this.config.attackRange[2]}
-            />
+          <Controls
+              classes = {classes}
+            config = {this.config}
+            setAmplitude = {this.setAmplitude}
+             setAttack = {this.setAttack}
+             setDecay = {this.setDecay}
+             setModAmount = {this.setModAmount}
+             setModRate = {this.setModRate}
+          />
 
-            <SimpleSlider 
-              name={'decay'}
-              init={this.config.decay}
-              handleChange={this.setDecay} 
-              min={0}
-              
-              max={this.config.decayRange[1]}
-              step={this.config.decayRange[2]}
-            />
+          <hr/>
 
-            <SimpleSlider 
-              name={'modulation amount'}
-              init={131}
-              handleChange={this.setModAmount} 
-              min={0}
-              max={this.config.modAmountRange[1]}
-              step={this.config.modAmountRange[2]}
-            />
+          <Controls
+              classes = {classes}
+              config = {this.configKeys}
+              setAmplitude = {this.setKeysAmplitude}
+              setAttack = {this.setKeysAttack}
+              setDecay = {this.setKeysDecay}
+              setModAmount = {this.setKeysModAmount}
+              setModRate = {this.setKeysModRate}
+          />
 
-            <SimpleSlider 
-              name={'modulation rate'}
-              init={50}
-              handleChange={this.setModRate} 
-              min={0}
-              max={this.config.modFrequencyRange[1]}
-              step={this.config.modFrequencyRange[2]}
-            />
 
-            
-          </div>
         </div>
 
         
@@ -554,7 +581,7 @@ YP   YP 88      88                       88   YD Y88888P    YP    ~Y8888P' 88   
 
         <div id={"keyboard-wrapper"}>
           <Keyboard
-            config = {this.config}
+            config = {this.configKeys}
           />
         </div>
         
@@ -703,6 +730,68 @@ class Keyboard extends  React.Component{
     );
   }
 
+}
+
+class Controls extends React.Component{
+  constructor(props) {
+    super(props);
+    this.state = {
+
+    };
+  }
+
+  render(){
+    return(
+        <div className={this.props.classes.sliderWrap + ' slider'}>
+          <SimpleSlider
+              name={'amplitude'}
+              init={this.props.config.amplitude}
+              handleChange={this.props.setAmplitude}
+              min={0}
+              max={this.props.config.amplitudeRange[1]}
+              step={this.props.config.amplitudeRange[2]}
+          />
+
+          <SimpleSlider
+              name={'attack'}
+              init={this.props.config.attack}
+              handleChange={this.props.setAttack}
+              min={0}
+              max={this.props.config.attackRange[1]}
+              step={this.props.config.attackRange[2]}
+          />
+
+          <SimpleSlider
+              name={'decay'}
+              init={this.props.config.decay}
+              handleChange={this.props.setDecay}
+              min={0}
+
+              max={this.props.config.decayRange[1]}
+              step={this.props.config.decayRange[2]}
+          />
+
+          <SimpleSlider
+              name={'modulation amount'}
+              init={131}
+              handleChange={this.props.setModAmount}
+              min={0}
+              max={this.props.config.modAmountRange[1]}
+              step={this.props.config.modAmountRange[2]}
+          />
+
+          <SimpleSlider
+              name={'modulation rate'}
+              init={50}
+              handleChange={this.props.setModRate}
+              min={0}
+              max={this.props.config.modFrequencyRange[1]}
+              step={this.props.config.modFrequencyRange[2]}
+          />
+
+        </div>
+    );
+  }
 }
 
 
