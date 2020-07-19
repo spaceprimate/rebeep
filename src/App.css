@@ -191,6 +191,8 @@ body .slider p {
 /*
 KEYS
 */
-#keyboard{clear: both; width: 100%; min-height: 18px; background-color: chartreuse;}
-#keyboard .key{width: 18px; height: 18px; background-color: orangered; display: inline-block; margin-left: 8px;}
+#keyboard-wrapper{ width: 400px; margin: auto;}
+#keyboard{clear: both; width: 100%; min-height: 18px; }
+#keyboard .key{width: 24px; height: 180px;  display: inline-block; }
+#keyboard .key .beep-inner{width: 32px; height: 180px;   }
 

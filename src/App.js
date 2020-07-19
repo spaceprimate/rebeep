@@ -63,6 +63,24 @@ const scale = [
 ];
 
 
+// const scale = [
+//   200.0,
+//   200.0,
+//   200.0,
+//   200.0,
+//   200.0,
+//   200.0,
+//   200.0,
+//   200.0,
+//   200.0,
+//   200.0,
+//   200.0,
+//   200.0,
+//   200.0,
+//   200.0,
+// ];
+
+
 const styles = {
   Typography: {
     color: 'orange',
@@ -343,7 +361,7 @@ YP   YP 88      88           YP  YP  YP Y88888P    YP    YP   YP  `Y88P'  Y8888D
       modAmount: this.config.modAmount
     }
 
-    let b = new beep(config, config.frequency);
+    let b = new Beep(config, config.frequency);
     console.log("beeped");
 
   };
@@ -594,43 +612,93 @@ class SimpleSlider extends React.Component{
 
 }
 
+class Key extends React.Component{
+  constructor(props) {
+    super(props);
+    this.state = {
+      active: false,
+    };
+    this.handleDown = this.handleDown.bind(this);
+    this.handleUp = this.handleUp.bind(this);
+    this.handleOut = this.handleOut.bind(this);
+    this.handleEnter = this.handleEnter.bind(this);
+    this.beep = undefined;
+  }
+
+  handleDown(){
+    if(!this.state.active){
+      let config = JSON.parse(JSON.stringify(this.props.config));
+      config.freq = this.props.freq;
+      this.beep = new Beep(config, this.props.freq, true);
+      this.setState({active: true});
+    }
+
+  }
+
+  handleUp(){
+    if(this.state.active){
+      this.beep.kill();
+      this.setState({active:false});
+    }
+
+  }
+
+  handleOut(){
+    if(this.state.active){
+      this.beep.kill();
+      this.setState({active:false});
+    }
+  }
+
+  handleEnter(){
+    if(!this.state.active && mouseDown){
+      this.beep = new Beep(this.props.config, this.props.freq, true);
+      this.setState({active: true});
+    }
+
+  }
+
+  render() {
+    return (
+
+          <div className={"beep key beep-col"}
+               onMouseDown={this.handleDown} onMouseUp={this.handleUp} onMouseLeave={this.handleOut} onMouseEnter={this.handleEnter}
+          >
+            <div className={"beep-inner"}></div>
+          </div>
+
+
+    );
+  }
+
+
+}
+
 class Keyboard extends  React.Component{
 
   constructor(props) {
     super(props);
-    this.state = {
-      value: this.props.init,
-      freq: 415.305
-    };
-
-    this.handleDown = this.handleDown.bind(this);
-    this.handleUp = this.handleUp.bind(this);
-
-    this.beep = undefined;
   }
-
-
-
-
-
-
-  handleDown(){
-    this.beep = new beep(this.props.config, this.state.freq, true);
-  }
-
-  handleUp(){
-    this.beep.kill();
-  }
-
-
 
   render() {
     return (
         <div id={"keyboard"}>
-          <div className={"key"}
-            onMouseDown={this.handleDown} onMouseUp={this.handleUp}
-          ></div>
-          <div className={"key"} onClick={this.handleUp}></div>
+          <Key config={this.props.config} freq={scale[13]}/>
+          <Key config={this.props.config} freq={scale[12]}/>
+          <Key config={this.props.config} freq={scale[11]}/>
+          <Key config={this.props.config} freq={scale[10]}/>
+          <Key config={this.props.config} freq={scale[9]}/>
+          <Key config={this.props.config} freq={scale[8]}/>
+          <Key config={this.props.config} freq={scale[7]}/>
+          <Key config={this.props.config} freq={scale[6]}/>
+          <Key config={this.props.config} freq={scale[5]}/>
+          <Key config={this.props.config} freq={scale[4]}/>
+          <Key config={this.props.config} freq={scale[3]}/>
+          <Key config={this.props.config} freq={scale[2]}/>
+          <Key config={this.props.config} freq={scale[1]}/>
+          <Key config={this.props.config} freq={scale[0]}/>
+
+
         </div>
     );
   }
@@ -662,7 +730,7 @@ Y8888P' Y88888P Y88888P 88
  *                  beep will be sustained until kill is called on it.
  */
 
-function beep(config, freq, keyboard) {
+function Beep(config, freq, keyboard) {
   // var keyboard = false;
 
 
@@ -693,7 +761,7 @@ function beep(config, freq, keyboard) {
 
 
   // console.log("config: " + config.frequency + ", freq: " + freq);
-  osc.frequency.value = config.frequency + freq;
+  osc.frequency.value = freq;
   osc.type = config.type;
   osc.connect(gain);
   osc.start(0);
@@ -783,3 +851,15 @@ function convertTempo(t){
 }
 
 export default withStyles(styles)(App);
+
+
+
+let mouseDown = false;
+document.body.onmousedown = function() {
+  mouseDown = true;
+  console.log(mouseDown);
+};
+document.body.onmouseup = function() {
+  mouseDown = false;
+  console.log(mouseDown);
+};
