@@ -191,8 +191,13 @@ body .slider p {
 /*
 KEYS
 */
-#keyboard-wrapper{ width: 400px; margin: auto;}
-#keyboard{clear: both; width: 100%; min-height: 18px; }
-#keyboard .key{width: 24px; height: 180px;  display: inline-block; }
-#keyboard .key .beep-inner{width: 32px; height: 180px;   }
-
+#keyboard-wrapper{ width:100%;
+    margin-left: 33px;
+    margin-right: 1px;}
+#keyboard{clear: both; width: 100%; min-height: 18px; display:flex;}
+#keyboard .key{width: 100%; height: 180px;  display: inline-block;  }
+#keyboard .key .beep-inner{width: 100%; height: 180px;   }
+#keyboard-wrapper.show-controls{
+    margin-left: 350px;
+    transition: padding-left 200ms ease-in-out;
+}

@@ -451,6 +451,12 @@ YP   YP 88      88                       88   YD Y88888P VP   V8P Y8888D' Y88888
       return classname;
     })();
 
+    const keyClassName = (() => {
+        let classname = (this.state.showControls ? 'show-controls ' : '');
+        classname += 'main';
+        return classname;
+    })();
+
     const beeps = this.state.rythm.map((col, i)=>{
       
       return (
@@ -579,7 +585,7 @@ YP   YP 88      88                       88   YD Y88888P    YP    ~Y8888P' 88   
           {this.state.windowWidth} x {this.state.windowHeight}
         </p>
 
-        <div id={"keyboard-wrapper"}>
+        <div id={"keyboard-wrapper"} className={this.state.showControls ? 'show-controls ' : ''}>
           <Keyboard
             config = {this.configKeys}
           />
