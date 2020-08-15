@@ -46,6 +46,7 @@ const audio = new window.AudioContext();
 
 // pentatonic scale, from: http://www.angelfire.com/in2/yala/t4scales.htm
 const scale = [
+  932.33,
   830.609,
   739.989,
   622.254,
@@ -60,6 +61,7 @@ const scale = [
   184.997,
   155.563,
   138.591,
+  116.54
 ];
 
 
@@ -89,7 +91,7 @@ const styles = {
     color: 'orange',
   },
   sliderWrap: {
-    width: 300,
+    width: 250,
   },
   slider: {
     padding: '22px 0px',
@@ -167,13 +169,14 @@ class App extends React.Component {
     
 
     this.state = {
-      rythm : createEmptyRythm(16, 12),
+      rythm : createEmptyRythm(16, 16),
       curBeat: 0,
       isPlaying : false,
       amplitude : 50,
       showControls: false,
       windowHeight: undefined,
-      windowWidth: undefined
+      windowWidth: undefined,
+      mainWidth: undefined,
     };
 
     this.mouseIsDown = false;
@@ -349,10 +352,17 @@ YP   YP 88      88           YP  YP  YP Y88888P    YP    YP   YP  `Y88P'  Y8888D
     
   }
 
-  handleResize = () => this.setState({
-    windowHeight: window.innerHeight,
-    windowWidth: window.innerWidth
-  });
+  handleResize = () => {
+    let mainWidth = window.innerWidth;
+    if (this.state.showControls){
+      mainWidth -= 250;
+    }
+    this.setState({
+      windowHeight: window.innerHeight,
+      windowWidth: window.innerWidth,
+      mainWidth: mainWidth,
+    })
+  };
 
   /**
    * Add event listener
@@ -457,10 +467,14 @@ YP   YP 88      88                       88   YD Y88888P VP   V8P Y8888D' Y88888
         return classname;
     })();
 
+    const beepSize = ((this.state.windowWidth / 16)-2).toString() + 'px';
+    console.log("beep size was rendered");
+
     const beeps = this.state.rythm.map((col, i)=>{
       
       return (
-        <div className={(Math.ceil((i + 1)/4)%2===0) ? 'beep-col even' : 'beep-col odd'} key={i}>
+        <div className={(Math.ceil((i + 1)/4)%2===0) ? 'beep-col even' : 'beep-col odd'} key={i} >
+        {/*<div className={(Math.ceil((i + 1)/4)%2===0) ? 'beep-col even' : 'beep-col odd'} key={i} style={{width: beepSize  }}>*/}
           {
           col.map((row, e)=>{
             let cn = (i === this.state.curBeat && this.state.isPlaying) ? 'active' : 'inactive';
@@ -501,20 +515,20 @@ YP   YP 88      88                       88   YD Y88888P    YP    ~Y8888P' 88   
           <Toolbar className={'toolbar'} >
           <div className="playstop">
             
-            <span hidden={this.state.isPlaying}>
+            <span hidden={this.state.isPlaying} className={'play-icon icon'}>
             <PlayArrowIcon 
               onClick={()=>{this.startRythm()}} 
               
             />
             </span>
-            <span hidden={!this.state.isPlaying}>
+            <span hidden={!this.state.isPlaying} className={'stop-icon icon'}>
               <StopIcon 
                 onClick={()=>{this.stopRythm()}} 
                 
                 hidden={!this.state.isPlaying}
               />
             </span>
-            <span>
+            <span className={'settings-icon icon'}>
               <SettingsIcon 
                 onClick={()=>{this.settingsToggle()}}
               />
@@ -578,7 +592,7 @@ YP   YP 88      88                       88   YD Y88888P    YP    ~Y8888P' 88   
         
 
 
-        <main className={mainClassName} >
+        <main className={mainClassName}>
           {beeps}
         </main>
         <p className={'ptest'}>
@@ -698,7 +712,7 @@ class Key extends React.Component{
           <div className={"beep key beep-col"}
                onMouseDown={this.handleDown} onMouseUp={this.handleUp} onMouseLeave={this.handleOut} onMouseEnter={this.handleEnter}
           >
-            <div className={"beep-inner"}></div>
+            <div className={this.state.active ? "beep-inner active" : "beep-inner"}></div>
           </div>
 
 
@@ -717,6 +731,8 @@ class Keyboard extends  React.Component{
   render() {
     return (
         <div id={"keyboard"}>
+          <Key config={this.props.config} freq={scale[15]}/>
+          <Key config={this.props.config} freq={scale[14]}/>
           <Key config={this.props.config} freq={scale[13]}/>
           <Key config={this.props.config} freq={scale[12]}/>
           <Key config={this.props.config} freq={scale[11]}/>
