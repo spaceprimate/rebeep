@@ -213,9 +213,11 @@ class App extends React.Component {
       decayRange: [0,2000,10],
       frequency: 440,
       type: "sine",
+      types: ["sine", "square", "sawtooth", "triangle"],
       amplitude: .15,
       amplitudeRange: [0,.35,.01],
       modType: "sine",
+      modTypes: ["sine", "square", "sawtooth", "triangle"],
       modFrequency: 22,
       modFrequencyRange: [0,200,1],
       modAmount: 7.2,
@@ -231,9 +233,11 @@ class App extends React.Component {
       decayRange: [0,2000,10],
       frequency: 440,
       type: "sine",
+      types: ["sine", "square", "sawtooth", "triangle"],
       amplitude: .15,
       amplitudeRange: [0,.35,.01],
       modType: "sine",
+      modTypes: ["sine", "square", "sawtooth", "triangle"],
       modFrequency: 22,
       modFrequencyRange: [0,200,1],
       modAmount: 7.2,
@@ -272,6 +276,11 @@ YP   YP 88      88           YP  YP  YP Y88888P    YP    YP   YP  `Y88P'  Y8888D
   setDecay = (v) => {
     this.config.decay = v;
   };
+
+  setOsc1 = (v) => {
+    this.config.type = v;
+  };
+
 
   setAmplitude = (v) => {
     this.config.amplitude = v;
@@ -591,6 +600,7 @@ YP   YP 88      88                       88   YD Y88888P    YP    ~Y8888P' 88   
              setAttack = {this.setAttack}
              setDecay = {this.setDecay}
              setModAmount = {this.setModAmount}
+             setOsc1 = {this.setOsc1}
              setModRate = {this.setModRate}
           />
 
@@ -800,8 +810,17 @@ class Controls extends React.Component{
   }
 
   render(){
+    let osc1 = this.props.config.types.map((t)=>{
+      return (
+        <option value={t}>{t}</option>
+      );
+    });
     return(
         <div className={this.props.classes.sliderWrap + ' slider'}>
+          <select>
+            {osc1}
+          </select>
+
           <SimpleSlider
               name={'amplitude'}
               init={this.props.config.amplitude}
