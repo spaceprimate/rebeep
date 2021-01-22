@@ -25,9 +25,10 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 
 import { fade } from '@material-ui/core/styles/colorManipulator';
+import KeyHandler, { KEYPRESS, KEYUP, KEYDOWN } from 'react-key-handler';
 
 // import MuiThemeProvider from '@material-ui/core/MuiThemeProvider';
-// import getMuiTheme from 'material-ui/lib/styles/getMuiTheme';
+// import getMuiTheme from 'material-ui/lib/styles/getMuiTheme';S
 
 
 
@@ -62,6 +63,25 @@ const scale = [
   155.563,
   138.591,
   116.54
+];
+
+const keyboardMapping = [
+    'p',
+    'o',
+    'i',
+    'u',
+    ';',
+    'l',
+    'k',
+    'j',
+    'r',
+    'e',
+    'w',
+    'q',
+    'f',
+    'd',
+    's',
+    'a'
 ];
 
 
@@ -672,12 +692,15 @@ class Key extends React.Component{
     this.beep = undefined;
   }
 
+
+
   handleDown(){
     if(!this.state.active){
       let config = JSON.parse(JSON.stringify(this.props.config));
-      config.freq = this.props.freq;
-      this.beep = new Beep(config, this.props.freq, true);
+      config.freq = scale[this.props.freq];
+      this.beep = new Beep(config, scale[this.props.freq], true);
       this.setState({active: true});
+      console.log("testo: " +    config.freq);
     }
 
   }
@@ -708,13 +731,26 @@ class Key extends React.Component{
 
   render() {
     return (
-
+          <>
+            <KeyHandler
+                keyEventName={KEYDOWN}
+                keyValue={keyboardMapping[this.props.freq]}
+                onKeyHandle={this.handleDown}
+            />
+            <KeyHandler
+                keyEventName={KEYUP}
+                keyValue={keyboardMapping[this.props.freq]}
+                onKeyHandle={this.handleUp}
+            />
           <div className={"beep key beep-col"}
                onMouseDown={this.handleDown} onMouseUp={this.handleUp} onMouseLeave={this.handleOut} onMouseEnter={this.handleEnter}
           >
-            <div className={this.state.active ? "beep-inner active" : "beep-inner"}></div>
-          </div>
+            <div className={this.state.active ? "beep-inner active" : "beep-inner"}>
+              <div className={"key-label"}>{keyboardMapping[this.props.freq]}</div>
+            </div>
 
+          </div>
+          </>
 
     );
   }
@@ -731,22 +767,22 @@ class Keyboard extends  React.Component{
   render() {
     return (
         <div id={"keyboard"}>
-          <Key config={this.props.config} freq={scale[15]}/>
-          <Key config={this.props.config} freq={scale[14]}/>
-          <Key config={this.props.config} freq={scale[13]}/>
-          <Key config={this.props.config} freq={scale[12]}/>
-          <Key config={this.props.config} freq={scale[11]}/>
-          <Key config={this.props.config} freq={scale[10]}/>
-          <Key config={this.props.config} freq={scale[9]}/>
-          <Key config={this.props.config} freq={scale[8]}/>
-          <Key config={this.props.config} freq={scale[7]}/>
-          <Key config={this.props.config} freq={scale[6]}/>
-          <Key config={this.props.config} freq={scale[5]}/>
-          <Key config={this.props.config} freq={scale[4]}/>
-          <Key config={this.props.config} freq={scale[3]}/>
-          <Key config={this.props.config} freq={scale[2]}/>
-          <Key config={this.props.config} freq={scale[1]}/>
-          <Key config={this.props.config} freq={scale[0]}/>
+          <Key config={this.props.config} freq={15}/>
+          <Key config={this.props.config} freq={14}/>
+          <Key config={this.props.config} freq={13}/>
+          <Key config={this.props.config} freq={12}/>
+          <Key config={this.props.config} freq={11}/>
+          <Key config={this.props.config} freq={10}/>
+          <Key config={this.props.config} freq={9}/>
+          <Key config={this.props.config} freq={8}/>
+          <Key config={this.props.config} freq={7}/>
+          <Key config={this.props.config} freq={6}/>
+          <Key config={this.props.config} freq={5}/>
+          <Key config={this.props.config} freq={4}/>
+          <Key config={this.props.config} freq={3}/>
+          <Key config={this.props.config} freq={2}/>
+          <Key config={this.props.config} freq={1}/>
+          <Key config={this.props.config} freq={0}/>
 
 
         </div>

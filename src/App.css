@@ -214,7 +214,7 @@ KEYS
 }
 #keyboard{clear: both; width: 100%; height: 100%; display:flex;}
 #keyboard .key{width: 100%; height: 100%;  display: inline-block;  }
-#keyboard .key .beep-inner{width: 100%; height: 100%;  background-image: url("images/5-reg.png");  }
+#keyboard .key .beep-inner{width: 100%; height: 100%;  background-image: url("images/5-reg.png"); position:relative;  }
 #keyboard .key .beep-inner:hover{background-image: url("images/5-active.png");  }
 #keyboard .key .beep-inner.active{background-image: url("images/bg-press2.png");  }
 
@@ -226,3 +226,15 @@ KEYS
 .icon:hover{ opacity: .8; cursor: pointer;}
 .settings-icon svg{transition: transform .5s;}
 .settings-icon:hover svg{transform: rotate(180deg);}
+
+.key-label {
+    background: #00000082;
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    bottom: 33px;
+    color: orange;
+    user-select:none;
+    text-transform: uppercase;
+}
+#keyboard .key .beep-inner.active .key-label{opacity: 0.1;}
