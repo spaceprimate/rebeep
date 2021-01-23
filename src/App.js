@@ -551,6 +551,9 @@ YP   YP 88      88                       88   YD Y88888P VP   V8P Y8888D' Y88888
       )
     });
 
+    console.log("CONFIG: ");
+    console.log(this.config);
+
 /*
 ===================================================================================================
 ===================================================================================================
@@ -948,6 +951,7 @@ Y8888P' Y88888P Y88888P 88
 
 function Beep(config, freq, keyboard) {
   // var keyboard = false;
+  config = randomConfig(config);
 
 
   var attack = config.attack,
@@ -1033,6 +1037,48 @@ function Beep(config, freq, keyboard) {
 
 }
 
+function randomConfig(config){
+    /* settings: 
+    amplitude: 0.15
+    attack: 10
+    decay: 1100
+    frequency: 415.305
+    modAmount: 7.2
+    modFrequency: 22
+    modType: "sine"
+    waveType: "sine"
+
+
+    this.config = {
+      attack: 10,
+      attackRange: [0,2000,10],
+      decay: 1100,
+      decayRange: [0,2000,10],
+      frequency: 440,
+      waveType: "sine",
+      types: ["sine", "square", "sawtooth", "triangle"],
+      amplitude: .15,
+      amplitudeRange: [0,.35,.01],
+      modType: "sine",
+      modTypes: ["sine", "square", "sawtooth", "triangle"],
+      modFrequency: 22,
+      modFrequencyRange: [0,200,1],
+      modAmount: 7.2,
+      modAmountRange: [0,600,1],
+      tempo: 75,
+      tempoRange: [1, 300, 1],
+    };
+
+    attack: 0 - 2000
+    */
+
+    let randNum = (Math.random() * 2) - 1; // random between -1,1
+    let scalar = 0.99;
+    // let modFrequency = config.modFrequency * (1 + randNum*scalar);
+    config.modFrequency = config.modFrequency + 200 * (randNum*scalar);
+    console.log(config);
+    return config;
+}
 
 
 App.propTypes = {
