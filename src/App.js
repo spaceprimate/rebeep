@@ -18,7 +18,7 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 
 
-import { createMuiTheme } from '@material-ui/core/styles';
+// import { createMuiTheme } from '@material-ui/core/styles';
 
 
 import PropTypes from 'prop-types';
@@ -104,8 +104,12 @@ const keyboardMapping = [
 
 
 const styles = {
+  body:{
+    font: 'IBM Plex Mono'
+  },
   Typography: {
     color: 'orange',
+    fontFamily: 'IBM Plex Mono'
   },
   text: {
     color: 'orange',
@@ -189,7 +193,7 @@ class App extends React.Component {
     
 
     this.state = {
-      rythm : createEmptyRythm(16, 16),
+      rhythm : createEmptyRhythm(16, 16),
       curBeat: 0,
       isPlaying : false,
       amplitude : 50,
@@ -197,6 +201,7 @@ class App extends React.Component {
       windowHeight: undefined,
       windowWidth: undefined,
       mainWidth: undefined,
+      tick: true
     };
 
     this.mouseIsDown = false;
@@ -212,7 +217,7 @@ class App extends React.Component {
       decay: 1100,
       decayRange: [0,2000,10],
       frequency: 440,
-      type: "sine",
+      waveType: "sine",
       types: ["sine", "square", "sawtooth", "triangle"],
       amplitude: .15,
       amplitudeRange: [0,.35,.01],
@@ -232,7 +237,7 @@ class App extends React.Component {
       decay: 1100,
       decayRange: [0,2000,10],
       frequency: 440,
-      type: "sine",
+      waveType: "sine",
       types: ["sine", "square", "sawtooth", "triangle"],
       amplitude: .15,
       amplitudeRange: [0,.35,.01],
@@ -246,7 +251,7 @@ class App extends React.Component {
       tempoRange: [1, 300, 1],
     };
 
-//init 50 157
+//init 50 157a
     
   }
 
@@ -278,7 +283,18 @@ YP   YP 88      88           YP  YP  YP Y88888P    YP    YP   YP  `Y88P'  Y8888D
   };
 
   setOsc1 = (v) => {
-    this.config.type = v;
+    this.config.waveType = v.target.name;
+    this.tock();
+  };
+
+  setMod1 = (v) => {
+    this.config.modType = v.target.name;
+    this.tock();
+  };
+
+  //arbitrarily updates state
+  tock = ()=>{
+    this.setState({tick:!this.state.tick});
   };
 
 
@@ -316,6 +332,16 @@ YP   YP 88      88           YP  YP  YP Y88888P    YP    YP   YP  `Y88P'  Y8888D
     this.configKeys.decay = v;
   };
 
+  setKeysOsc1 = (v) => {
+    this.configKeys.waveType = v.target.name;
+    this.tock();
+  };
+
+  setKeysMod1 = (v) => {
+    this.configKeys.modType = v.target.name;
+    this.tock();
+  };
+
   setKeysAmplitude = (v) => {
     this.configKeys.amplitude = v;
   };
@@ -335,7 +361,7 @@ YP   YP 88      88           YP  YP  YP Y88888P    YP    YP   YP  `Y88P'  Y8888D
     console.log(v);
   };
 
-  startRythm(){
+  startRhythm(){
     // this.timerId = setInterval(()=>{beep(),2000});
     if(!this.state.isPlaying){
       this.timerId = setTimeout(() => this.playBeat(), convertTempo(this.config.tempo));
@@ -347,7 +373,7 @@ YP   YP 88      88           YP  YP  YP Y88888P    YP    YP   YP  `Y88P'  Y8888D
 
 
 
-  stopRythm(){
+  stopRhythm(){
     clearInterval(this.timerId);
     // this.setState({isPlaying:false});
     // this.curBeat = 0;
@@ -360,7 +386,7 @@ YP   YP 88      88           YP  YP  YP Y88888P    YP    YP   YP  `Y88P'  Y8888D
   playBeat(){
     // console.log("curbeat");
     // console.log(this.curBeat);
-    this.state.rythm[this.state.curBeat].forEach((i,e)=>{
+    this.state.rhythm[this.state.curBeat].forEach((i,e)=>{
       if(i){
         this.beep(scale[e]);
       }
@@ -415,9 +441,9 @@ YP   YP 88      88           YP  YP  YP Y88888P    YP    YP   YP  `Y88P'  Y8888D
   }
 
   setBeat(col, row){
-    let myRythm = this.state.rythm.slice();
-    myRythm[col][row] = !this.state.rythm[col][row];
-    this.setState({myRythm});
+    let myRhythm = this.state.rhythm.slice();
+    myRhythm[col][row] = !this.state.rhythm[col][row];
+    this.setState({myRhythm});
     
   };
 
@@ -445,9 +471,9 @@ YP   YP 88      88           YP  YP  YP Y88888P    YP    YP   YP  `Y88P'  Y8888D
       attack: this.config.attack,
       decay: this.config.decay,
       frequency: freq,
-      type: "sine",
+      waveType: this.config.waveType,
       amplitude: this.config.amplitude,
-      modType: "sine",
+      modType: this.config.modType,
       modFrequency: this.config.modFrequency,
       modAmount: this.config.modAmount
     }
@@ -499,7 +525,7 @@ YP   YP 88      88                       88   YD Y88888P VP   V8P Y8888D' Y88888
     const beepSize = ((this.state.windowWidth / 16)-2).toString() + 'px';
     console.log("beep size was rendered");
 
-    const beeps = this.state.rythm.map((col, i)=>{
+    const beeps = this.state.rhythm.map((col, i)=>{
       
       return (
         <div className={(Math.ceil((i + 1)/4)%2===0) ? 'beep-col even' : 'beep-col odd'} key={i} >
@@ -507,7 +533,7 @@ YP   YP 88      88                       88   YD Y88888P VP   V8P Y8888D' Y88888
           {
           col.map((row, e)=>{
             let cn = (i === this.state.curBeat && this.state.isPlaying) ? 'active' : 'inactive';
-            cn += (this.state.rythm[i][e] ? ' on' : ' off')
+            cn += (this.state.rhythm[i][e] ? ' on' : ' off')
             return(
               <div className={'beep'} 
                 onMouseDown={()=>that.handleMouseDown(i,e)} 
@@ -546,13 +572,13 @@ YP   YP 88      88                       88   YD Y88888P    YP    ~Y8888P' 88   
             
             <span hidden={this.state.isPlaying} className={'play-icon icon'}>
             <PlayArrowIcon 
-              onClick={()=>{this.startRythm()}} 
+              onClick={()=>{this.startRhythm()}}
               
             />
             </span>
             <span hidden={!this.state.isPlaying} className={'stop-icon icon'}>
               <StopIcon 
-                onClick={()=>{this.stopRythm()}} 
+                onClick={()=>{this.stopRhythm()}}
                 
                 hidden={!this.state.isPlaying}
               />
@@ -577,8 +603,8 @@ YP   YP 88      88                       88   YD Y88888P    YP    ~Y8888P' 88   
           </div>
   
           
-          {/* <span onClick={()=>{this.startRythm()}}>Play</span> */}
-          {/* <span onClick={()=>{this.stopRythm()}}>Stop</span> */}
+          {/* <span onClick={()=>{this.startRhythm()}}>Play</span> */}
+          {/* <span onClick={()=>{this.stopRhythm()}}>Stop</span> */}
           </Toolbar>
 
           
@@ -601,10 +627,12 @@ YP   YP 88      88                       88   YD Y88888P    YP    ~Y8888P' 88   
              setDecay = {this.setDecay}
              setModAmount = {this.setModAmount}
              setOsc1 = {this.setOsc1}
+             setMod1 = {this.setMod1}
              setModRate = {this.setModRate}
+              title = 'grid'
           />
 
-          <hr/>
+
 
           <Controls
               classes = {classes}
@@ -613,7 +641,10 @@ YP   YP 88      88                       88   YD Y88888P    YP    ~Y8888P' 88   
               setAttack = {this.setKeysAttack}
               setDecay = {this.setKeysDecay}
               setModAmount = {this.setKeysModAmount}
+              setOsc1 = {this.setKeysOsc1}
+              setMod1 = {this.setKeysMod1}
               setModRate = {this.setKeysModRate}
+              title = 'keyboard'
           />
 
 
@@ -673,7 +704,7 @@ class SimpleSlider extends React.Component{
 
     return (
         <div>
-            <Typography>{this.props.name}</Typography>
+            <p className={"slider-label"}>{this.props.name}</p>
           <StyledSlider
             className = {"slider"}
             value={value}
@@ -812,14 +843,27 @@ class Controls extends React.Component{
   render(){
     let osc1 = this.props.config.types.map((t)=>{
       return (
-        <option value={t}>{t}</option>
+          <li onClick={this.props.setOsc1} className={this.props.config.waveType === t ? 'active' : 'inactive'}>
+            <img src={"images/icon-"+ t + ".png"} name={t}/>
+          </li>
       );
     });
+    let mod1 = this.props.config.types.map((t)=>{
+      return (
+          <li onClick={this.props.setMod1} className={this.props.config.modType === t ? 'active' : 'inactive'}>
+            <img src={"images/icon-"+ t + ".png"} name={t}/>
+          </li>
+      );
+    });
+
     return(
-        <div className={this.props.classes.sliderWrap + ' slider'}>
-          <select>
+        <div className={this.props.classes.sliderWrap + ' slider controls-wrapper'}>
+          <div className={'controls-title'}>{this.props.title}</div>
+          <p className={'slider-label'}>waveform</p>
+          <ul className={'wave-buttons'}>
             {osc1}
-          </select>
+          </ul>
+
 
           <SimpleSlider
               name={'amplitude'}
@@ -848,6 +892,11 @@ class Controls extends React.Component{
               max={this.props.config.decayRange[1]}
               step={this.props.config.decayRange[2]}
           />
+          <p className={'slider-label'}>modulation waveform</p>
+          <ul className={'wave-buttons'}>
+            {mod1}
+          </ul>
+
 
           <SimpleSlider
               name={'modulation amount'}
@@ -935,7 +984,8 @@ function Beep(config, freq, keyboard) {
 
   // console.log("config: " + config.frequency + ", freq: " + freq);
   osc.frequency.value = freq;
-  osc.type = config.type;
+  osc.type = config.waveType;
+  console.log(osc.type);
   osc.connect(gain);
   osc.start(0);
 
@@ -1004,10 +1054,10 @@ db    db d888888b d888888b db      .d8888.
 */
 
 /**
- * Creates an empty 2 dimensional array representing the rythm
+ * Creates an empty 2 dimensional array representing the rhythm
  * In the UI, beats are the columns, notes the rows
  */
-function createEmptyRythm(numberBeats, numberNotes){
+function createEmptyRhythm(numberBeats, numberNotes){
   let arr = []
   for(let i = 0; i < numberBeats; i++){
     let column = [];

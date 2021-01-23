@@ -1,5 +1,6 @@
 body {
     background: black;
+    font-family:'IBM Plex Mono', monospace;
 }
 
 .beep-col {
@@ -158,13 +159,13 @@ body .slider {
 }
 
 .controls {
-    width: 250px;
+    width: 294px;
     margin: auto;  
     position: fixed;
     top: 53px;
     left: 0;
     bottom: 0;
-    padding: 0 22px;
+    padding: 0 ;
     background: #090909;
     transition: margin-left 200ms ease-in-out;
     z-index: 1000;
@@ -183,6 +184,12 @@ body .slider p {
 .controls.open{
     display:block;
     margin-left: 0;
+    overflow-y: auto;
+    scrollbar-width:none;
+    -ms-overflow-style: none;  /* IE and Edge */
+}
+.controls.open::-webkit-scrollbar{
+    display: none;
 }
 .controls.closed{
     display:block;
@@ -198,7 +205,7 @@ body .slider p {
     padding: 5px 12px 8px 0;
     border-bottom: 1px solid #252525;
     overflow: hidden;
-    margin: 0 -22px;
+    margin: 0;
     min-height: 24px;
 }
 
@@ -238,3 +245,20 @@ KEYS
     text-transform: uppercase;
 }
 #keyboard .key .beep-inner.active .key-label{opacity: 0.1;}
+
+ul.wave-buttons, ul.wave-buttons li{padding: 0; margin: 0; list-style: none;}
+ul.wave-buttons{display: flex;}
+ul.wave-buttons li{padding: 8px;}
+ul.wave-buttons li.active img, ul.wave-buttons li:hover img{opacity: 1;}
+ul.wave-buttons li img{width: 33px; height: auto; opacity: 0.3;}
+
+p.slider-label{margin-bottom: 0}
+
+body .controls-wrapper{margin: 5px;
+    border: 1px solid #342d21;
+    width: 259px;
+    padding: 12px;
+    background: #090909;}
+
+
+.controls-title{color:orange; letter-spacing: 6px;}
