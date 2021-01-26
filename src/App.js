@@ -228,6 +228,7 @@ class App extends React.Component {
       modAmount: 7.2,
       modAmountRange: [0,600,1],
       tempo: 75,
+      chaos: [0.25, 0.25],
       tempoRange: [1, 300, 1],
     };
 
@@ -248,8 +249,11 @@ class App extends React.Component {
       modAmount: 7.2,
       modAmountRange: [0,600,1],
       tempo: 75,
+      chaos: [0.25, 0.25],
       tempoRange: [1, 300, 1],
     };
+
+    
 
 //init 50 157a
     
@@ -360,6 +364,14 @@ YP   YP 88      88           YP  YP  YP Y88888P    YP    YP   YP  `Y88P'  Y8888D
     this.configKeys.modAmount = (v * (.001*v)); // initial values grow slowly
     console.log(v);
   };
+
+  setChaos = (x,y) => {
+      this.config.chaos = [x,y];
+      this.configKeys.chaos = [x,y];
+      console.log("chaos: " + x + ", " + y);
+  }
+
+ 
 
   startRhythm(){
     // this.timerId = setInterval(()=>{beep(),2000});
@@ -650,6 +662,11 @@ YP   YP 88      88                       88   YD Y88888P    YP    ~Y8888P' 88   
               title = 'keyboard'
           />
 
+          <Chaos
+            setChaos = {this.setChaos}
+            
+          />
+
 
         </div>
 
@@ -722,6 +739,75 @@ class SimpleSlider extends React.Component{
   }
 
 }
+
+
+class Chaos extends React.Component{
+    constructor(props) {
+        super(props);
+        this.state = {
+            active: false,
+        };
+
+        this.mouseDown = false;
+
+    }
+    _onMouseDown(e){
+        this.mouseDown = true;
+    }
+    _onMouseUp(e){
+        this.mouseDown = false;
+    }
+    _onMouseOut(e){
+        this.mouseDown=false;
+    }
+
+    
+
+
+    _onMouseMove(e) {
+        // this.setState({ x: e.nativeEvent.offsetX, y: e.nativeEvent.offsetY });
+        if(this.mouseDown){
+            console.log(e.nativeEvent.offsetX);
+            this.props.setChaos(e.nativeEvent.offsetX, e.nativeEvent.offsetY);
+            
+        }
+        
+      }
+
+      
+
+
+
+    render() {
+        return (
+            <>
+                <div className="chaos-pad"  
+                    onMouseMove={this._onMouseMove.bind(this)} 
+                    onMouseDown={this._onMouseDown.bind(this)}
+                    onMouseUp={this._onMouseUp.bind(this)}
+                    onMouseOut={this._onMouseOut.bind(this)}
+                >
+
+                </div>
+            </>
+
+        );
+    }
+
+
+}
+
+
+/* ----------------------------------------------------------------------------------------------------------------------
+_        _______           _______ 
+| \    /\(  ____ \|\     /|(  ____ \
+|  \  / /| (    \/( \   / )| (    \/
+|  (_/ / | (__     \ (_) / | (_____ 
+|   _ (  |  __)     \   /  (_____  )
+|  ( \ \ | (         ) (         ) |
+|  /  \ \| (____/\   | |   /\____) |
+|_/    \/(_______/   \_/   \_______)
+/* ---------------------------------------------------------------------------------------------------------------------- */       
 
 class Key extends React.Component{
   constructor(props) {
