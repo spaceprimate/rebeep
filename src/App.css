@@ -260,8 +260,36 @@ body .controls-wrapper{margin: 5px;
     padding: 12px;
     background: #090909;}
 
+body .controls-wrapper.chaos-wrapper{background: black;}
+
 
 .controls-title{color:orange; letter-spacing: 6px;}
 
 
-.chaos-pad{ background: white; height: 200px; width: 200px;}
+.chaos-pad{ 
+    border: 1px solid #73541a;
+    border-radius: 7px;
+    height: 258px; width: 258px; 
+    background-image: url("images/5-reg.png");
+    position: relative;
+    cursor: crosshair;
+}
+.chaos-pad:hover{
+    background-image: url("images/5-active.png"); 
+}
+
+.chaos-pad .cursor{
+    position: absolute;
+    height: 9px;
+    width: 9px; 
+    top:120px; 
+    left: 90px;
+    background-image: url("images/bg-press2.png");
+    opacity: .5;
+    border-radius: 4px;
+    box-shadow: #ffa5008c 0px 0px 23px 18px;
+}
+
+.chaos-pad:hover .cursor{
+    opacity: 1;
+}

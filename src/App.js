@@ -753,26 +753,48 @@ class Chaos extends React.Component{
     }
     _onMouseDown(e){
         this.mouseDown = true;
+        console.log(e.nativeEvent.offsetX);
+        this.props.setChaos(e.nativeEvent.offsetX, e.nativeEvent.offsetY);
+        document.getElementById("chaos-cursor").style.opacity = 0;
     }
     _onMouseUp(e){
         this.mouseDown = false;
+        let offsetStyles=[e.nativeEvent.offsetX.toString() + "px", e.nativeEvent.offsetY.toString() + "px"];
+        document.getElementById("chaos-cursor").style.left = offsetStyles[0];
+            document.getElementById("chaos-cursor").style.top = offsetStyles[1];
+            document.getElementById("chaos-cursor").style.opacity = 0.5;
     }
     _onMouseOut(e){
+
+        if(this.mouseDown){
+            let offsetStyles=[e.nativeEvent.offsetX.toString() + "px", e.nativeEvent.offsetY.toString() + "px"];
+        document.getElementById("chaos-cursor").style.left = offsetStyles[0];
+            document.getElementById("chaos-cursor").style.top = offsetStyles[1];
+        }
         this.mouseDown=false;
+        
     }
+
+
 
     
 
 
     _onMouseMove(e) {
         // this.setState({ x: e.nativeEvent.offsetX, y: e.nativeEvent.offsetY });
+        
         if(this.mouseDown){
+
             console.log(e.nativeEvent.offsetX);
             this.props.setChaos(e.nativeEvent.offsetX, e.nativeEvent.offsetY);
+
+            
             
         }
         
       }
+
+    
 
       
 
@@ -780,16 +802,17 @@ class Chaos extends React.Component{
 
     render() {
         return (
-            <>
+            <div className="controls-wrapper">
                 <div className="chaos-pad"  
                     onMouseMove={this._onMouseMove.bind(this)} 
                     onMouseDown={this._onMouseDown.bind(this)}
                     onMouseUp={this._onMouseUp.bind(this)}
                     onMouseOut={this._onMouseOut.bind(this)}
                 >
+                    <div className={"cursor"} id="chaos-cursor"></div>
 
                 </div>
-            </>
+            </div>
 
         );
     }
