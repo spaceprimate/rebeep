@@ -366,6 +366,13 @@ YP   YP 88      88           YP  YP  YP Y88888P    YP    YP   YP  `Y88P'  Y8888D
   };
 
   setChaos = (x,y) => {
+      // 258 x 258
+
+      x = x / 258;
+      y = y / 258;
+      y = 1 - y;
+
+
       this.config.chaos = [x,y];
       this.configKeys.chaos = [x,y];
       console.log("chaos: " + x + ", " + y);
@@ -666,6 +673,7 @@ YP   YP 88      88                       88   YD Y88888P    YP    ~Y8888P' 88   
             setChaos = {this.setChaos}
             
           />
+            <p>{this.config.chaos[0]}, {this.config.chaos[1]}</p>
 
 
         </div>
@@ -787,6 +795,7 @@ class Chaos extends React.Component{
 
             console.log(e.nativeEvent.offsetX);
             this.props.setChaos(e.nativeEvent.offsetX, e.nativeEvent.offsetY);
+
 
             
             
