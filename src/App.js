@@ -4,9 +4,11 @@ import './App.css';
 import PlayArrowIcon from '@material-ui/icons/PlayArrowOutlined';
 import StopIcon from '@material-ui/icons/StopOutlined';
 import ExpandLess from '@material-ui/icons/ExpandLess';
+import ExpandMore from '@material-ui/icons/ExpandMore';
 
 import SettingsIcon from '@material-ui/icons/SettingsOutlined';
 import ClearIcon from '@material-ui/icons/Clear';
+import MinimizeIcon from '@material-ui/icons/Minimize';
 import { Typography } from '@material-ui/core';
 import Slider from '@material-ui/lab/Slider';
 import List from '@material-ui/core/List';
@@ -366,13 +368,6 @@ YP   YP 88      88           YP  YP  YP Y88888P    YP    YP   YP  `Y88P'  Y8888D
   };
 
   setChaos = (x,y) => {
-      // 258 x 258
-
-      x = x / 258;
-      y = y / 258;
-      y = 1 - y;
-
-
       this.config.chaos = [x,y];
       this.configKeys.chaos = [x,y];
       console.log("chaos: " + x + ", " + y);
@@ -673,7 +668,6 @@ YP   YP 88      88                       88   YD Y88888P    YP    ~Y8888P' 88   
             setChaos = {this.setChaos}
             
           />
-            <p>{this.config.chaos[0]}, {this.config.chaos[1]}</p>
 
 
         </div>
@@ -761,49 +755,26 @@ class Chaos extends React.Component{
     }
     _onMouseDown(e){
         this.mouseDown = true;
-        console.log(e.nativeEvent.offsetX);
-        this.props.setChaos(e.nativeEvent.offsetX, e.nativeEvent.offsetY);
-        document.getElementById("chaos-cursor").style.opacity = 0;
     }
     _onMouseUp(e){
         this.mouseDown = false;
-        let offsetStyles=[e.nativeEvent.offsetX.toString() + "px", e.nativeEvent.offsetY.toString() + "px"];
-        document.getElementById("chaos-cursor").style.left = offsetStyles[0];
-            document.getElementById("chaos-cursor").style.top = offsetStyles[1];
-            document.getElementById("chaos-cursor").style.opacity = 0.5;
     }
     _onMouseOut(e){
-
-        if(this.mouseDown){
-            let offsetStyles=[e.nativeEvent.offsetX.toString() + "px", e.nativeEvent.offsetY.toString() + "px"];
-        document.getElementById("chaos-cursor").style.left = offsetStyles[0];
-            document.getElementById("chaos-cursor").style.top = offsetStyles[1];
-        }
         this.mouseDown=false;
-        
     }
-
-
 
     
 
 
     _onMouseMove(e) {
         // this.setState({ x: e.nativeEvent.offsetX, y: e.nativeEvent.offsetY });
-        
         if(this.mouseDown){
-
             console.log(e.nativeEvent.offsetX);
             this.props.setChaos(e.nativeEvent.offsetX, e.nativeEvent.offsetY);
-
-
-            
             
         }
         
       }
-
-    
 
       
 
@@ -811,17 +782,16 @@ class Chaos extends React.Component{
 
     render() {
         return (
-            <div className="controls-wrapper">
+            <>
                 <div className="chaos-pad"  
                     onMouseMove={this._onMouseMove.bind(this)} 
                     onMouseDown={this._onMouseDown.bind(this)}
                     onMouseUp={this._onMouseUp.bind(this)}
                     onMouseOut={this._onMouseOut.bind(this)}
                 >
-                    <div className={"cursor"} id="chaos-cursor"></div>
 
                 </div>
-            </div>
+            </>
 
         );
     }
@@ -953,12 +923,18 @@ class Keyboard extends  React.Component{
 
 }
 
+
+// Defines a slider control
 class Controls extends React.Component{
   constructor(props) {
     super(props);
     this.state = {
-
+      collapsed: false,
     };
+  }
+
+  toggleCollapse = () => {
+    this.setState({collapsed: !this.state.collapsed});
   }
 
   render(){
@@ -978,8 +954,13 @@ class Controls extends React.Component{
     });
 
     return(
-        <div className={this.props.classes.sliderWrap + ' slider controls-wrapper'}>
-          <div className={'controls-title'}>{this.props.title}</div>
+        <div className={this.props.classes.sliderWrap + ' slider controls-wrapper ' + (this.state.collapsed ? 'collapsed' : '')}>
+          <div className={'controls-title'}>
+            {this.props.title}
+            <div className='fix-right' onClick={this.toggleCollapse}>
+              {this.state.collapsed ? <ExpandMore /> : <ExpandLess />}
+            </div>
+          </div>
           <p className={'slider-label'}>waveform</p>
           <ul className={'wave-buttons'}>
             {osc1}
@@ -1067,51 +1048,45 @@ Y8888P' Y88888P Y88888P 88
  *                  beep will be sustained until kill is called on it.
  */
 
-function Beep(config, freq, keyboard) {
-  // var keyboard = false;
-  config = randomConfig(config);
+class Beep {
+  constructor(config, freq, keyboard) {
+    // var keyboard = false;
+    config = randomConfig(config);
 
 
-  var attack = config.attack,
-      decay = config.decay,
-      gain = audio.createGain(),
-      osc = audio.createOscillator(),
+    var attack = config.attack, decay = config.decay, gain = audio.createGain(), osc = audio.createOscillator(),
       // biquadFilter = audio.createBiquadFilter(),
-      maxGain = config.amplitude,
-      modAmount  = config.modAmount,
-      isKeyboard = false;
+      maxGain = config.amplitude, modAmount = config.modAmount, isKeyboard = false;
 
-  if (keyboard !== undefined && keyboard){
-    // decay = 1000000;
-    console.log("config.decay");
-    console.log(config.decay);
-    isKeyboard = true;
-  }
+    if (keyboard !== undefined && keyboard) {
+      // decay = 1000000;
+      console.log("config.decay");
+      console.log(config.decay);
+      isKeyboard = true;
+    }
 
-  // biquadFilter.connect(gain);
-  gain.connect(audio.destination);
-  gain.gain.setValueAtTime(0, audio.currentTime);
-  gain.gain.linearRampToValueAtTime(maxGain, audio.currentTime + attack / 1000);
+    // biquadFilter.connect(gain);
+    gain.connect(audio.destination);
+    gain.gain.setValueAtTime(0, audio.currentTime);
+    gain.gain.linearRampToValueAtTime(maxGain, audio.currentTime + attack / 1000);
 
-  // only implement decay for beats, not keys. Keys are handled below
-  if(keyboard === undefined || !keyboard){
-    gain.gain.linearRampToValueAtTime(0, audio.currentTime + decay / 1000);
-  }
+    // only implement decay for beats, not keys. Keys are handled below
+    if (keyboard === undefined || !keyboard) {
+      gain.gain.linearRampToValueAtTime(0, audio.currentTime + decay / 1000);
+    }
 
 
-  // biquadFilter.type = "lowshelf";
-  // biquadFilter.frequency.setValueAtTime(5000, audio.currentTime);
-  // biquadFilter.gain.setValueAtTime(100, audio.currentTime);
+    // biquadFilter.type = "lowshelf";
+    // biquadFilter.frequency.setValueAtTime(5000, audio.currentTime);
+    // biquadFilter.gain.setValueAtTime(100, audio.currentTime);
+    // console.log("config: " + config.frequency + ", freq: " + freq);
+    osc.frequency.value = freq;
+    osc.type = config.waveType;
+    console.log(osc.type);
+    osc.connect(gain);
+    osc.start(0);
 
-
-  // console.log("config: " + config.frequency + ", freq: " + freq);
-  osc.frequency.value = freq;
-  osc.type = config.waveType;
-  console.log(osc.type);
-  osc.connect(gain);
-  osc.start(0);
-
-  if (config.modType !== 'none'){
+    if (config.modType !== 'none') {
       var gain2 = audio.createGain();
       gain2.gain.value = modAmount;
       gain2.connect(osc.frequency);
@@ -1121,38 +1096,39 @@ function Beep(config, freq, keyboard) {
       osc2.connect(gain2);
       osc2.start(0);
 
-  }
-  if(!isKeyboard){
-    setTimeout(function() {
+    }
+    if (!isKeyboard) {
+      setTimeout(function () {
+        osc.stop(0);
+        osc.disconnect(gain);
+        gain.disconnect(audio.destination);
+        if (config.modType !== 'none') {
+          osc2.stop(0);
+          gain2.disconnect(osc.frequency);
+        }
+      }, decay);
+    }
+
+
+    this.kill = () => {
       osc.stop(0);
       osc.disconnect(gain);
       gain.disconnect(audio.destination);
-      if (config.modType !== 'none'){
+      if (config.modType !== 'none') {
         osc2.stop(0);
         gain2.disconnect(osc.frequency);
       }
-    }, decay);
+      console.log("kill called");
+    };
+
+    this.fadeOut = () => {
+      gain.gain.linearRampToValueAtTime(0, audio.currentTime + config.decay / 1000);
+      setTimeout(this.kill, config.decay);
+      // gain.gain.linearRampToValueAtTime(0, audio.currentTime + decay / 1000);
+    };
+
+
   }
-
-
-  this.kill = ()=>{
-    osc.stop(0);
-    osc.disconnect(gain);
-    gain.disconnect(audio.destination);
-    if (config.modType !== 'none'){
-      osc2.stop(0);
-      gain2.disconnect(osc.frequency);
-    }
-    console.log("kill called");
-  };
-
-  this.fadeOut = () =>{
-    gain.gain.linearRampToValueAtTime(0, audio.currentTime + config.decay / 1000);
-    setTimeout(this.kill, config.decay);
-    // gain.gain.linearRampToValueAtTime(0, audio.currentTime + decay / 1000);
-  };
-
-
 }
 
 function randomConfig(config){

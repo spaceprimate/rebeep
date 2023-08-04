@@ -1,6 +1,6 @@
 body {
     background: black;
-    font-family:'IBM Plex Mono', monospace;
+    font-family: 'IBM Plex Mono', monospace;
 }
 
 .beep-col {
@@ -25,12 +25,14 @@ div.beep-inner {
     border: #73541a 1px solid;
     border-radius: 2px
 }
-.beep-col.odd div.beep-inner{
+
+.beep-col.odd div.beep-inner {
     /* background: rgb(61, 61, 61); */
     border: #463d2d 1px solid;
 }
 
-.beep-col.odd div.beep-inner:hover, .beep-col div.beep-inner:hover{
+.beep-col.odd div.beep-inner:hover,
+.beep-col div.beep-inner:hover {
     border-color: orange !important;
 }
 
@@ -61,7 +63,9 @@ body .beep.active p {
     height: 1px;
 }
 
-.pull-right{float:right;}
+.pull-right {
+    float: right;
+}
 
 
 
@@ -78,8 +82,8 @@ body .appbar {
     background: #0c0c0ccc;
     color: orange;
     border-bottom: 1px solid #1f1f1f;
-    display:block;
-    
+    display: block;
+
 }
 
 body .toolbar {
@@ -96,17 +100,22 @@ body .toolbar .playstop {
     left: 0;
 }
 
-body .toolbar .tempo-slider{
-    width: 342px; position: absolute; top: 0; right: 24px;
+body .toolbar .tempo-slider {
+    width: 342px;
+    position: absolute;
+    top: 0;
+    right: 24px;
 
 }
-body .toolbar .tempo-slider p{
+
+body .toolbar .tempo-slider p {
     position: absolute;
     color: #606265;
     left: 0;
     top: 18px;
 }
-body .toolbar .tempo-slider .slider{
+
+body .toolbar .tempo-slider .slider {
     position: absolute;
     right: 0;
     top: 16px;
@@ -118,7 +127,8 @@ body .playstop svg {
     font-size: 32px;
     padding: 9px;
 }
-body .playstop span{
+
+body .playstop span {
     padding: 4px;
     /* display: inline-block; */
 }
@@ -136,9 +146,15 @@ body .playstop span{
     display: flex;
 }
 
-.ptest{clear:both; color: orangered; display: none;}
+.ptest {
+    clear: both;
+    color: orangered;
+    display: none;
+}
 
-.orange-text{color: orange;}
+.orange-text {
+    color: orange;
+}
 
 
 
@@ -160,12 +176,12 @@ body .slider {
 
 .controls {
     width: 294px;
-    margin: auto;  
+    margin: auto;
     position: fixed;
     top: 53px;
     left: 0;
     bottom: 0;
-    padding: 0 ;
+    padding: 0;
     background: #090909;
     transition: margin-left 200ms ease-in-out;
     z-index: 1000;
@@ -181,27 +197,31 @@ body .slider p {
 }
 
 
-.controls.open{
-    display:block;
+.controls.open {
+    display: block;
     margin-left: 0;
     overflow-y: auto;
-    scrollbar-width:none;
-    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    /* IE and Edge */
 }
-.controls.open::-webkit-scrollbar{
+
+.controls.open::-webkit-scrollbar {
     display: none;
 }
-.controls.closed{
-    display:block;
+
+.controls.closed {
+    display: block;
     margin-left: -330px;
 }
-.main.show-controls{
+
+.main.show-controls {
     padding-left: 296px;
     transition: padding-left 200ms ease-in-out;
 }
 
-.controls .toolbar{
-    color:orange;
+.controls .toolbar {
+    color: orange;
     padding: 5px 12px 8px 0;
     border-bottom: 1px solid #252525;
     overflow: hidden;
@@ -212,27 +232,59 @@ body .slider p {
 /*
 KEYS
 */
-#keyboard-wrapper{
+#keyboard-wrapper {
     position: fixed;
     top: 75%;
     left: 7px;
     right: 7px;
     bottom: 7px;
 }
-#keyboard{clear: both; width: 100%; height: 100%; display:flex;}
-#keyboard .key{width: 100%; height: 100%;  display: inline-block;  }
-#keyboard .key .beep-inner{width: 100%; height: 100%;  background-image: url("images/5-reg.png"); position:relative;  }
-#keyboard .key .beep-inner:hover{background-image: url("images/5-active.png");  }
-#keyboard .key .beep-inner.active{background-image: url("images/bg-press2.png");  }
 
-#keyboard-wrapper.show-controls{
+#keyboard {
+    clear: both;
+    width: 100%;
+    height: 100%;
+    display: flex;
+}
+
+#keyboard .key {
+    width: 100%;
+    height: 100%;
+    display: inline-block;
+}
+
+#keyboard .key .beep-inner {
+    width: 100%;
+    height: 100%;
+    background-image: url("images/5-reg.png");
+    position: relative;
+}
+
+#keyboard .key .beep-inner:hover {
+    background-image: url("images/5-active.png");
+}
+
+#keyboard .key .beep-inner.active {
+    background-image: url("images/bg-press2.png");
+}
+
+#keyboard-wrapper.show-controls {
     margin-left: 296px;
     transition: padding-left 200ms ease-in-out;
 }
 
-.icon:hover{ opacity: .8; cursor: pointer;}
-.settings-icon svg{transition: transform .5s;}
-.settings-icon:hover svg{transform: rotate(180deg);}
+.icon:hover {
+    opacity: .8;
+    cursor: pointer;
+}
+
+.settings-icon svg {
+    transition: transform .5s;
+}
+
+.settings-icon:hover svg {
+    transform: rotate(180deg);
+}
 
 .key-label {
     background: #00000082;
@@ -241,48 +293,94 @@ KEYS
     text-align: center;
     bottom: 33px;
     color: orange;
-    user-select:none;
+    user-select: none;
     text-transform: uppercase;
 }
-#keyboard .key .beep-inner.active .key-label{opacity: 0.1;}
 
-ul.wave-buttons, ul.wave-buttons li{padding: 0; margin: 0; list-style: none;}
-ul.wave-buttons{display: flex;}
-ul.wave-buttons li{padding: 8px;}
-ul.wave-buttons li.active img, ul.wave-buttons li:hover img{opacity: 1;}
-ul.wave-buttons li img{width: 33px; height: auto; opacity: 0.3;}
+#keyboard .key .beep-inner.active .key-label {
+    opacity: 0.1;
+}
 
-p.slider-label{margin-bottom: 0}
+ul.wave-buttons,
+ul.wave-buttons li {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
 
-body .controls-wrapper{margin: 5px;
+ul.wave-buttons {
+    display: flex;
+}
+
+ul.wave-buttons li {
+    padding: 8px;
+}
+
+ul.wave-buttons li.active img,
+ul.wave-buttons li:hover img {
+    opacity: 1;
+}
+
+ul.wave-buttons li img {
+    width: 33px;
+    height: auto;
+    opacity: 0.3;
+}
+
+p.slider-label {
+    margin-bottom: 0
+}
+
+body .controls-wrapper {
+    margin: 5px;
     border: 1px solid #342d21;
     width: 259px;
     padding: 12px;
-    background: #090909;}
+    background: #090909;
+}
 
-body .controls-wrapper.chaos-wrapper{background: black;}
+body .controls-wrapper.collapsed{
+    height: 26px;
+    overflow: hidden;
+}
+
+body .controls-wrapper.chaos-wrapper {
+    background: black;
+}
 
 
-.controls-title{color:orange; letter-spacing: 6px;}
+.controls-title {
+    color: orange;
+    letter-spacing: 6px;
+    position: relative;
+}
+
+.fix-right {
+    position: absolute;
+    right: 0;
+    top: 0;
+}
 
 
-.chaos-pad{ 
+.chaos-pad {
     border: 1px solid #73541a;
     border-radius: 7px;
-    height: 258px; width: 258px; 
+    height: 258px;
+    width: 258px;
     background-image: url("images/5-reg.png");
     position: relative;
     cursor: crosshair;
 }
-.chaos-pad:hover{
-    background-image: url("images/5-active.png"); 
+
+.chaos-pad:hover {
+    background-image: url("images/5-active.png");
 }
 
-.chaos-pad .cursor{
+.chaos-pad .cursor {
     position: absolute;
     height: 9px;
-    width: 9px; 
-    top:120px; 
+    width: 9px;
+    top: 120px;
     left: 90px;
     background-image: url("images/bg-press2.png");
     opacity: .5;
@@ -290,6 +388,6 @@ body .controls-wrapper.chaos-wrapper{background: black;}
     box-shadow: #ffa5008c 0px 0px 23px 18px;
 }
 
-.chaos-pad:hover .cursor{
+.chaos-pad:hover .cursor {
     opacity: 1;
 }
