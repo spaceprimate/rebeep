@@ -370,6 +370,7 @@ body .controls-wrapper.chaos-wrapper {
     background-image: url("images/5-reg.png");
     position: relative;
     cursor: crosshair;
+    margin: 18px 0 12px 18px;
 }
 
 .chaos-pad:hover {
