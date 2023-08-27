@@ -204,6 +204,7 @@ body .slider p {
     scrollbar-width: none;
     -ms-overflow-style: none;
     /* IE and Edge */
+    overflow-x: hidden;
 }
 
 .controls.open::-webkit-scrollbar {

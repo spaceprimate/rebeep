@@ -118,6 +118,8 @@ export class Beep {
     // var keyboard = false;
     config = randomConfig(config);
 
+    console.log(config);
+
 
     var attack = config.attack, decay = config.decay, gain = audio.createGain(), osc = audio.createOscillator(),
       // biquadFilter = audio.createBiquadFilter(),
