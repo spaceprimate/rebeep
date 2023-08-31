@@ -495,6 +495,7 @@ YP   YP 88      88           YP  YP  YP Y88888P    YP    YP   YP  `Y88P'  Y8888D
       modType: this.config.modType,
       modFrequency: this.config.modFrequency,
       modFrequencyRange: this.config.modFrequencyRange,
+      modAmountRange: this.config.modAmountRange,
       modAmount: this.config.modAmount,
       chaos: this.config.chaos,
     }

@@ -12,6 +12,28 @@ Y8888P' Y88888P Y88888P 88
 
 const audio = new window.AudioContext();
 
+function randomize(value, min, max, chaos){
+  const r1 = Math.random()
+  const prob = chaos[0]
+  if (prob > r1) {
+
+    // -1 or 1
+    const sign = Math.random() > 0.5 ? 1 : -1
+
+    // const min = config.modFrequencyRange[0]
+    // const max = config.modFrequencyRange[1]
+
+    let amount = chaos[1]
+    amount = (amount * ((max - min) / 2) * sign) * r1
+    value = value + amount
+    value = value > max ? max : value
+    value = value < min ? min : value
+    // config.modFrequency = value
+    // console.log(value)
+  }
+  return value
+}
+
 function randomConfig(config) {
   /* settings: 
   amplitude: 0.15
@@ -65,30 +87,35 @@ function randomConfig(config) {
 
   */
 
-
-  console.log(config.chaos)
+  console.log('entry point')
+  // console.log(config.chaos)
 
   // random number between 0 and 1
-  const r1 = Math.random()
-  const prob = config.chaos[0]
-  if (prob > r1) {
+  // const r1 = Math.random()
+  // const prob = config.chaos[0]
+  // if (prob > r1) {
 
-    // -1 or 1
-    const sign = Math.random() > 0.5 ? 1 : -1
+  //   // -1 or 1
+  //   const sign = Math.random() > 0.5 ? 1 : -1
 
-    const min = config.modFrequencyRange[0]
-    const max = config.modFrequencyRange[1]
+  //   const min = config.modFrequencyRange[0]
+  //   const max = config.modFrequencyRange[1]
 
-    let amount = config.chaos[1]
-    amount = amount * ((max - min) / 2) * sign
-    let value = config.modFrequency + amount
-    value = value > max ? max : value
-    value = value < min ? min : value
-    config.modFrequency = value
+  //   let amount = config.chaos[1]
+  //   amount = (amount * ((max - min) / 2) * sign) * r1
+  //   let value = config.modFrequency + amount
+  //   value = value > max ? max : value
+  //   value = value < min ? min : value
+  //   config.modFrequency = value
+  //   console.log(value)
 
 
-  }
+  // }
 
+  console.log(config)
+
+  config.modFrequency = randomize(config.modFrequency, config.modFrequencyRange[0], config.modFrequencyRange[1], config.chaos)
+  config.modAmount = randomize(config.modAmount, config.modAmountRange[0], config.modAmountRange[1], config.chaos)
 
 
 
@@ -118,7 +145,7 @@ export class Beep {
     // var keyboard = false;
     config = randomConfig(config);
 
-    console.log(config);
+    // console.log(config);
 
 
     var attack = config.attack, decay = config.decay, gain = audio.createGain(), osc = audio.createOscillator(),
