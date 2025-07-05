@@ -1,54 +1,21 @@
 import React from 'react';
 import './App.css';
-
 import PlayArrowIcon from '@material-ui/icons/PlayArrowOutlined';
 import StopIcon from '@material-ui/icons/StopOutlined';
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
-
 import SettingsIcon from '@material-ui/icons/SettingsOutlined';
 import ClearIcon from '@material-ui/icons/Clear';
-import MinimizeIcon from '@material-ui/icons/Minimize';
-import { Typography } from '@material-ui/core';
 import Slider from '@material-ui/lab/Slider';
-import List from '@material-ui/core/List';
-import Drawer from '@material-ui/core/Drawer';
-import IconButton from '@material-ui/core/IconButton';
-import Divider from '@material-ui/core/Divider';
-
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-
-
-// import { createMuiTheme } from '@material-ui/core/styles';
-
-
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-
 import { fade } from '@material-ui/core/styles/colorManipulator';
-import KeyHandler, { KEYPRESS, KEYUP, KEYDOWN } from 'react-key-handler';
+import KeyHandler, { KEYUP, KEYDOWN } from 'react-key-handler';
 import { Beep } from './Beep';
-import Test from './components/Chaos';
 import Chaos from './components/Chaos';
 
-// import MuiThemeProvider from '@material-ui/core/MuiThemeProvider';
-// import getMuiTheme from 'material-ui/lib/styles/getMuiTheme';S
-
-
-
-
-
-
-
-
-/**
- * to do: 
- *  - 
- * 
- * 
- * 
- */
 
 // pentatonic scale, from: http://www.angelfire.com/in2/yala/t4scales.htm
 const scale = [
@@ -210,7 +177,6 @@ class App extends React.Component {
     };
 
     this.mouseIsDown = false;
-
 
     this.timerId = null;
     // this.curBeat = 0;
@@ -379,19 +345,13 @@ class App extends React.Component {
     this.configKeys.chaos = [x, y];
   }
 
-
-
   startRhythm() {
     // this.timerId = setInterval(()=>{beep(),2000});
     if (!this.state.isPlaying) {
       this.timerId = setTimeout(() => this.playBeat(), convertTempo(this.config.tempo));
     }
     this.setState({ isPlaying: true });
-
-
   }
-
-
 
   stopRhythm() {
     clearInterval(this.timerId);
@@ -574,8 +534,6 @@ class App extends React.Component {
       )
     });
 
-    // console.log("CONFIG: ");
-    // console.log(this.config);
 
     /*
     ===================================================================================================
@@ -628,12 +586,7 @@ class App extends React.Component {
               />
             </div>
 
-
-            {/* <span onClick={()=>{this.startRhythm()}}>Play</span> */}
-            {/* <span onClick={()=>{this.stopRhythm()}}>Stop</span> */}
           </Toolbar>
-
-
 
         </AppBar>
 
@@ -658,8 +611,6 @@ class App extends React.Component {
             title='grid'
           />
 
-
-
           <Controls
             classes={classes}
             config={this.configKeys}
@@ -672,15 +623,9 @@ class App extends React.Component {
             setModRate={this.setKeysModRate}
             title='keyboard'
           />
-
           
           <Chaos setChaos={this.setChaos} />
-
-
         </div>
-
-
-
 
         <main className={mainClassName}>
           {beeps}
@@ -695,12 +640,9 @@ class App extends React.Component {
           />
         </div>
 
-
       </div>
-
     );
   }
-
 
 }
 
@@ -777,16 +719,13 @@ class Key extends React.Component {
   }
 
 
-
   handleDown() {
     if (!this.state.active) {
       let config = JSON.parse(JSON.stringify(this.props.config));
       config.freq = scale[this.props.freq];
       this.beep = new Beep(config, scale[this.props.freq], true);
       this.setState({ active: true });
-      // console.log("testo: " +    config.freq);
     }
-
   }
 
   handleUp() {
@@ -795,7 +734,6 @@ class Key extends React.Component {
       this.beep.fadeOut();
       this.setState({ active: false });
     }
-
   }
 
   handleOut() {
@@ -835,7 +773,6 @@ class Key extends React.Component {
 
         </div>
       </>
-
     );
   }
 
@@ -867,12 +804,9 @@ class Keyboard extends React.Component {
         <Key config={this.props.config} freq={2} />
         <Key config={this.props.config} freq={1} />
         <Key config={this.props.config} freq={0} />
-
-
       </div>
     );
   }
-
 }
 
 
@@ -974,12 +908,6 @@ class Controls extends React.Component {
     );
   }
 }
-
-
-
-
-
-
 
 
 App.propTypes = {
