@@ -29,6 +29,8 @@ import { withStyles } from '@material-ui/core/styles';
 import { fade } from '@material-ui/core/styles/colorManipulator';
 import KeyHandler, { KEYPRESS, KEYUP, KEYDOWN } from 'react-key-handler';
 import { Beep } from './Beep';
+import Test from './components/Chaos';
+import Chaos from './components/Chaos';
 
 // import MuiThemeProvider from '@material-ui/core/MuiThemeProvider';
 // import getMuiTheme from 'material-ui/lib/styles/getMuiTheme';S
@@ -69,22 +71,22 @@ const scale = [
 ];
 
 const keyboardMapping = [
-    'p',
-    'o',
-    'i',
-    'u',
-    ';',
-    'l',
-    'k',
-    'j',
-    'r',
-    'e',
-    'w',
-    'q',
-    'f',
-    'd',
-    's',
-    'a'
+  'p',
+  'o',
+  'i',
+  'u',
+  ';',
+  'l',
+  'k',
+  'j',
+  'r',
+  'e',
+  'w',
+  'q',
+  'f',
+  'd',
+  's',
+  'a'
 ];
 
 
@@ -107,7 +109,7 @@ const keyboardMapping = [
 
 
 const styles = {
-  body:{
+  body: {
     font: 'IBM Plex Mono'
   },
   Typography: {
@@ -191,15 +193,15 @@ YP   YP 88      88
 */
 class App extends React.Component {
 
-  constructor(props){
+  constructor(props) {
     super(props);
-    
+
 
     this.state = {
-      rhythm : createEmptyRhythm(16, 16),
+      rhythm: createEmptyRhythm(16, 16),
       curBeat: 0,
-      isPlaying : false,
-      amplitude : 50,
+      isPlaying: false,
+      amplitude: 50,
       showControls: false,
       windowHeight: undefined,
       windowWidth: undefined,
@@ -209,27 +211,27 @@ class App extends React.Component {
 
     this.mouseIsDown = false;
 
-    
+
     this.timerId = null;
     // this.curBeat = 0;
     // this.isPlayer = false;
 
     this.config = {
       attack: 10,
-      attackRange: [0,2000,10],
+      attackRange: [0, 2000, 10],
       decay: 1100,
-      decayRange: [0,2000,10],
+      decayRange: [0, 2000, 10],
       frequency: 440,
       waveType: "sine",
       types: ["sine", "square", "sawtooth", "triangle"],
       amplitude: .15,
-      amplitudeRange: [0,.35,.01],
+      amplitudeRange: [0, .35, .01],
       modType: "sine",
       modTypes: ["sine", "square", "sawtooth", "triangle"],
       modFrequency: 22,
-      modFrequencyRange: [0,200,1],
+      modFrequencyRange: [0, 200, 1],
       modAmount: 7.2,
-      modAmountRange: [0,600,1],
+      modAmountRange: [0, 600, 1],
       tempo: 75,
       chaos: [0.25, 0.25],
       tempoRange: [1, 300, 1],
@@ -237,43 +239,43 @@ class App extends React.Component {
 
     this.configKeys = {
       attack: 10,
-      attackRange: [0,2000,10],
+      attackRange: [0, 2000, 10],
       decay: 1100,
-      decayRange: [0,2000,10],
+      decayRange: [0, 2000, 10],
       frequency: 440,
       waveType: "sine",
       types: ["sine", "square", "sawtooth", "triangle"],
       amplitude: .15,
-      amplitudeRange: [0,.35,.01],
+      amplitudeRange: [0, .35, .01],
       modType: "sine",
       modTypes: ["sine", "square", "sawtooth", "triangle"],
       modFrequency: 22,
-      modFrequencyRange: [0,200,1],
+      modFrequencyRange: [0, 200, 1],
       modAmount: 7.2,
-      modAmountRange: [0,600,1],
+      modAmountRange: [0, 600, 1],
       tempo: 75,
       chaos: [0.25, 0.25],
       tempoRange: [1, 300, 1],
     };
 
-    
 
-//init 50 157a
-    
+
+    //init 50 157a
+
   }
 
-/*
-===================================================================================================
-===================================================================================================
- .d8b.  d8888b. d8888b.      .88b  d88. d88888b d888888b db   db  .d88b.  d8888b. .d8888. 
-d8' `8b 88  `8D 88  `8D      88'YbdP`88 88'     `~~88~~' 88   88 .8P  Y8. 88  `8D 88'  YP 
-88ooo88 88oodD' 88oodD'      88  88  88 88ooooo    88    88ooo88 88    88 88   88 `8bo.   
-88~~~88 88~~~   88~~~        88  88  88 88~~~~~    88    88~~~88 88    88 88   88   `Y8b. 
-88   88 88      88           88  88  88 88.        88    88   88 `8b  d8' 88  .8D db   8D 
-YP   YP 88      88           YP  YP  YP Y88888P    YP    YP   YP  `Y88P'  Y8888D' `8888Y'
-===================================================================================================
-===================================================================================================                               
-*/
+  /*
+  ===================================================================================================
+  ===================================================================================================
+   .d8b.  d8888b. d8888b.      .88b  d88. d88888b d888888b db   db  .d88b.  d8888b. .d8888. 
+  d8' `8b 88  `8D 88  `8D      88'YbdP`88 88'     `~~88~~' 88   88 .8P  Y8. 88  `8D 88'  YP 
+  88ooo88 88oodD' 88oodD'      88  88  88 88ooooo    88    88ooo88 88    88 88   88 `8bo.   
+  88~~~88 88~~~   88~~~        88  88  88 88~~~~~    88    88~~~88 88    88 88   88   `Y8b. 
+  88   88 88      88           88  88  88 88.        88    88   88 `8b  d8' 88  .8D db   8D 
+  YP   YP 88      88           YP  YP  YP Y88888P    YP    YP   YP  `Y88P'  Y8888D' `8888Y'
+  ===================================================================================================
+  ===================================================================================================                               
+  */
 
   setAmplitude = (v) => {
     this.config.amplitude = v;
@@ -300,8 +302,8 @@ YP   YP 88      88           YP  YP  YP Y88888P    YP    YP   YP  `Y88P'  Y8888D
   };
 
   //arbitrarily updates state
-  tock = ()=>{
-    this.setState({tick:!this.state.tick});
+  tock = () => {
+    this.setState({ tick: !this.state.tick });
   };
 
 
@@ -310,7 +312,7 @@ YP   YP 88      88           YP  YP  YP Y88888P    YP    YP   YP  `Y88P'  Y8888D
   };
 
   setModRate = (v) => {
-    this.config.modFrequency = (v * (.005*v)); // initial values grow slowly
+    this.config.modFrequency = (v * (.005 * v)); // initial values grow slowly
     // console.log(v);
   };
 
@@ -320,7 +322,7 @@ YP   YP 88      88           YP  YP  YP Y88888P    YP    YP   YP  `Y88P'  Y8888D
   };
 
   setModAmount = (v) => {
-    this.config.modAmount = (v * (.001*v)); // initial values grow slowly
+    this.config.modAmount = (v * (.001 * v)); // initial values grow slowly
     // console.log(v);
   };
 
@@ -354,7 +356,7 @@ YP   YP 88      88           YP  YP  YP Y88888P    YP    YP   YP  `Y88P'  Y8888D
   };
 
   setKeysModRate = (v) => {
-    this.configKeys.modFrequency = (v * (.005*v)); // initial values grow slowly
+    this.configKeys.modFrequency = (v * (.005 * v)); // initial values grow slowly
     // console.log(v);
   };
 
@@ -364,71 +366,70 @@ YP   YP 88      88           YP  YP  YP Y88888P    YP    YP   YP  `Y88P'  Y8888D
   };
 
   setKeysModAmount = (v) => {
-    this.configKeys.modAmount = (v * (.001*v)); // initial values grow slowly
+    this.configKeys.modAmount = (v * (.001 * v)); // initial values grow slowly
     // console.log(v);
   };
 
-  setChaos = (x,y) => {
+  setChaos = (x, y) => {
 
     // assume max of 256
     x = x / 256;
     y = y / 256;
-      this.config.chaos = [x,y];
-      this.configKeys.chaos = [x,y];
-      // console.log("chaos: " + x + ", " + y);
+    this.config.chaos = [x, y];
+    this.configKeys.chaos = [x, y];
   }
 
- 
 
-  startRhythm(){
+
+  startRhythm() {
     // this.timerId = setInterval(()=>{beep(),2000});
-    if(!this.state.isPlaying){
+    if (!this.state.isPlaying) {
       this.timerId = setTimeout(() => this.playBeat(), convertTempo(this.config.tempo));
     }
-    this.setState({isPlaying:true});
-    
+    this.setState({ isPlaying: true });
+
 
   }
 
 
 
-  stopRhythm(){
+  stopRhythm() {
     clearInterval(this.timerId);
     // this.setState({isPlaying:false});
     // this.curBeat = 0;
     this.setState({
-      curBeat : 0,
+      curBeat: 0,
       isPlaying: false,
     });
   }
 
-  playBeat(){
+  playBeat() {
     // console.log("curbeat");
     // console.log(this.curBeat);
-    this.state.rhythm[this.state.curBeat].forEach((i,e)=>{
-      if(i){
+    this.state.rhythm[this.state.curBeat].forEach((i, e) => {
+      if (i) {
         this.beep(scale[e]);
       }
     });
-    if(this.state.curBeat < 15){
+    if (this.state.curBeat < 15) {
       let i = this.state.curBeat + 1;
       this.setState({
         curBeat: i,
       });
     }
-    else{
+    else {
       this.setState({
         curBeat: 0,
       });
     }
 
     this.timerId = setTimeout(() => this.playBeat(), convertTempo(this.config.tempo));
-    
+
   }
 
   handleResize = () => {
     let mainWidth = window.innerWidth;
-    if (this.state.showControls){
+    if (this.state.showControls) {
       mainWidth -= 250;
     }
     this.setState({
@@ -453,35 +454,35 @@ YP   YP 88      88           YP  YP  YP Y88888P    YP    YP   YP  `Y88P'  Y8888D
     window.removeEventListener('resize', this.handleResize)
   }
 
-  settingsToggle(){
+  settingsToggle() {
     this.setState({
       showControls: !this.state.showControls,
     })
   }
 
-  setBeat(col, row){
+  setBeat(col, row) {
     let myRhythm = this.state.rhythm.slice();
     myRhythm[col][row] = !this.state.rhythm[col][row];
-    this.setState({myRhythm});
-    
+    this.setState({ myRhythm });
+
   };
 
-  handleMouseDown(col,row){
+  handleMouseDown(col, row) {
     this.mouseIsDown = true;
-    this.setBeat(col,row);
+    this.setBeat(col, row);
   }
 
-  handleMouseUp(){
+  handleMouseUp() {
     this.mouseIsDown = false;
   }
 
-  handleMouseEnter(col,row){
-    if(this.mouseIsDown){
-      this.setBeat(col,row);
+  handleMouseEnter(col, row) {
+    if (this.mouseIsDown) {
+      this.setBeat(col, row);
     }
   }
 
-  handleMouseOut(){
+  handleMouseOut() {
     this.mouseIsDown = false;
   }
 
@@ -506,19 +507,19 @@ YP   YP 88      88           YP  YP  YP Y88888P    YP    YP   YP  `Y88P'  Y8888D
   };
 
 
-/*
-===================================================================================================
-===================================================================================================
- .d8b.  d8888b. d8888b.                  d8888b. d88888b d8b   db d8888b. d88888b d8888b. 
-d8' `8b 88  `8D 88  `8D                  88  `8D 88'     888o  88 88  `8D 88'     88  `8D 
-88ooo88 88oodD' 88oodD'                  88oobY' 88ooooo 88V8o 88 88   88 88ooooo 88oobY' 
-88~~~88 88~~~   88~~~        C8888D      88`8b   88~~~~~ 88 V8o88 88   88 88~~~~~ 88`8b   
-88   88 88      88                       88 `88. 88.     88  V888 88  .8D 88.     88 `88. 
-YP   YP 88      88                       88   YD Y88888P VP   V8P Y8888D' Y88888P 88   YD 
-===================================================================================================
-===================================================================================================                               
-*/
-  render(){
+  /*
+  ===================================================================================================
+  ===================================================================================================
+   .d8b.  d8888b. d8888b.                  d8888b. d88888b d8b   db d8888b. d88888b d8888b. 
+  d8' `8b 88  `8D 88  `8D                  88  `8D 88'     888o  88 88  `8D 88'     88  `8D 
+  88ooo88 88oodD' 88oodD'                  88oobY' 88ooooo 88V8o 88 88   88 88ooooo 88oobY' 
+  88~~~88 88~~~   88~~~        C8888D      88`8b   88~~~~~ 88 V8o88 88   88 88~~~~~ 88`8b   
+  88   88 88      88                       88 `88. 88.     88  V888 88  .8D 88.     88 `88. 
+  YP   YP 88      88                       88   YD Y88888P VP   V8P Y8888D' Y88888P 88   YD 
+  ===================================================================================================
+  ===================================================================================================                               
+  */
+  render() {
     let that = this;
 
     const { classes } = this.props;
@@ -539,36 +540,36 @@ YP   YP 88      88                       88   YD Y88888P VP   V8P Y8888D' Y88888
     })();
 
     const keyClassName = (() => {
-        let classname = (this.state.showControls ? 'show-controls ' : '');
-        classname += 'main';
-        return classname;
+      let classname = (this.state.showControls ? 'show-controls ' : '');
+      classname += 'main';
+      return classname;
     })();
 
-    const beepSize = ((this.state.windowWidth / 16)-2).toString() + 'px';
+    const beepSize = ((this.state.windowWidth / 16) - 2).toString() + 'px';
     // console.log("beep size was rendered");
 
-    const beeps = this.state.rhythm.map((col, i)=>{
-      
+    const beeps = this.state.rhythm.map((col, i) => {
+
       return (
-        <div className={(Math.ceil((i + 1)/4)%2===0) ? 'beep-col even' : 'beep-col odd'} key={i} >
-        {/*<div className={(Math.ceil((i + 1)/4)%2===0) ? 'beep-col even' : 'beep-col odd'} key={i} style={{width: beepSize  }}>*/}
+        <div className={(Math.ceil((i + 1) / 4) % 2 === 0) ? 'beep-col even' : 'beep-col odd'} key={i} >
+          {/*<div className={(Math.ceil((i + 1)/4)%2===0) ? 'beep-col even' : 'beep-col odd'} key={i} style={{width: beepSize  }}>*/}
           {
-          col.map((row, e)=>{
-            let cn = (i === this.state.curBeat && this.state.isPlaying) ? 'active' : 'inactive';
-            cn += (this.state.rhythm[i][e] ? ' on' : ' off')
-            return(
-              <div className={'beep'} 
-                onMouseDown={()=>that.handleMouseDown(i,e)} 
-                onMouseEnter={()=>that.handleMouseEnter(i,e)}
-                onMouseUp={()=>that.handleMouseUp(i,e)}
-                
-                key={e}
-              >
-                <div className={'beep-inner ' + cn} />
-              </div>
-            );
-          })
-        }
+            col.map((row, e) => {
+              let cn = (i === this.state.curBeat && this.state.isPlaying) ? 'active' : 'inactive';
+              cn += (this.state.rhythm[i][e] ? ' on' : ' off')
+              return (
+                <div className={'beep'}
+                  onMouseDown={() => that.handleMouseDown(i, e)}
+                  onMouseEnter={() => that.handleMouseEnter(i, e)}
+                  onMouseUp={() => that.handleMouseUp(i, e)}
+
+                  key={e}
+                >
+                  <div className={'beep-inner ' + cn} />
+                </div>
+              );
+            })
+          }
         </div>
       )
     });
@@ -576,111 +577,109 @@ YP   YP 88      88                       88   YD Y88888P VP   V8P Y8888D' Y88888
     // console.log("CONFIG: ");
     // console.log(this.config);
 
-/*
-===================================================================================================
-===================================================================================================
- .d8b.  d8888b. d8888b.                  d8888b. d88888b d888888b db    db d8888b. d8b   db 
-d8' `8b 88  `8D 88  `8D                  88  `8D 88'     `~~88~~' 88    88 88  `8D 888o  88 
-88ooo88 88oodD' 88oodD'                  88oobY' 88ooooo    88    88    88 88oobY' 88V8o 88 
-88~~~88 88~~~   88~~~        C8888D      88`8b   88~~~~~    88    88    88 88`8b   88 V8o88 
-88   88 88      88                       88 `88. 88.        88    88b  d88 88 `88. 88  V888 
-YP   YP 88      88                       88   YD Y88888P    YP    ~Y8888P' 88   YD VP   V8P 
-===================================================================================================
-===================================================================================================                               
-*/
+    /*
+    ===================================================================================================
+    ===================================================================================================
+     .d8b.  d8888b. d8888b.                  d8888b. d88888b d888888b db    db d8888b. d8b   db 
+    d8' `8b 88  `8D 88  `8D                  88  `8D 88'     `~~88~~' 88    88 88  `8D 888o  88 
+    88ooo88 88oodD' 88oodD'                  88oobY' 88ooooo    88    88    88 88oobY' 88V8o 88 
+    88~~~88 88~~~   88~~~        C8888D      88`8b   88~~~~~    88    88    88 88`8b   88 V8o88 
+    88   88 88      88                       88 `88. 88.        88    88b  d88 88 `88. 88  V888 
+    YP   YP 88      88                       88   YD Y88888P    YP    ~Y8888P' 88   YD VP   V8P 
+    ===================================================================================================
+    ===================================================================================================                               
+    */
     return (
-      
+
       <div >
         <AppBar className={'appbar'}>
           <Toolbar className={'toolbar'} >
-          <div className="playstop">
-            
-            <span hidden={this.state.isPlaying} className={'play-icon icon'}>
-            <PlayArrowIcon 
-              onClick={()=>{this.startRhythm()}}
-              
-            />
-            </span>
-            <span hidden={!this.state.isPlaying} className={'stop-icon icon'}>
-              <StopIcon 
-                onClick={()=>{this.stopRhythm()}}
-                
-                hidden={!this.state.isPlaying}
-              />
-            </span>
-            <span className={'settings-icon icon'}>
-              <SettingsIcon 
-                onClick={()=>{this.settingsToggle()}}
-              />
-            </span>
+            <div className="playstop">
 
-          </div>
+              <span hidden={this.state.isPlaying} className={'play-icon icon'}>
+                <PlayArrowIcon
+                  onClick={() => { this.startRhythm() }}
 
-          <div className={'tempo-slider'}>
-          <SimpleSlider 
-              name={'BPM'}
-              init={75}
-              handleChange={this.setTempo} 
-              min={this.config.tempoRange[0]}
-              max={this.config.tempoRange[1]}
-              step={this.config.tempoRange[2]}              
-            />
-          </div>
-  
-          
-          {/* <span onClick={()=>{this.startRhythm()}}>Play</span> */}
-          {/* <span onClick={()=>{this.stopRhythm()}}>Stop</span> */}
+                />
+              </span>
+              <span hidden={!this.state.isPlaying} className={'stop-icon icon'}>
+                <StopIcon
+                  onClick={() => { this.stopRhythm() }}
+
+                  hidden={!this.state.isPlaying}
+                />
+              </span>
+              <span className={'settings-icon icon'}>
+                <SettingsIcon
+                  onClick={() => { this.settingsToggle() }}
+                />
+              </span>
+
+            </div>
+
+            <div className={'tempo-slider'}>
+              <SimpleSlider
+                name={'BPM'}
+                init={75}
+                handleChange={this.setTempo}
+                min={this.config.tempoRange[0]}
+                max={this.config.tempoRange[1]}
+                step={this.config.tempoRange[2]}
+              />
+            </div>
+
+
+            {/* <span onClick={()=>{this.startRhythm()}}>Play</span> */}
+            {/* <span onClick={()=>{this.stopRhythm()}}>Stop</span> */}
           </Toolbar>
 
-          
+
 
         </AppBar>
 
         <div className={controlsClassName}>
           <div className={'toolbar'}>
             <ClearIcon className={'pull-right'}
-                onClick={()=>{this.settingsToggle()}}
-                
-              />
+              onClick={() => { this.settingsToggle() }}
+
+            />
           </div>
 
           <Controls
-              classes = {classes}
-            config = {this.config}
-            setAmplitude = {this.setAmplitude}
-             setAttack = {this.setAttack}
-             setDecay = {this.setDecay}
-             setModAmount = {this.setModAmount}
-             setOsc1 = {this.setOsc1}
-             setMod1 = {this.setMod1}
-             setModRate = {this.setModRate}
-              title = 'grid'
+            classes={classes}
+            config={this.config}
+            setAmplitude={this.setAmplitude}
+            setAttack={this.setAttack}
+            setDecay={this.setDecay}
+            setModAmount={this.setModAmount}
+            setOsc1={this.setOsc1}
+            setMod1={this.setMod1}
+            setModRate={this.setModRate}
+            title='grid'
           />
 
 
 
           <Controls
-              classes = {classes}
-              config = {this.configKeys}
-              setAmplitude = {this.setKeysAmplitude}
-              setAttack = {this.setKeysAttack}
-              setDecay = {this.setKeysDecay}
-              setModAmount = {this.setKeysModAmount}
-              setOsc1 = {this.setKeysOsc1}
-              setMod1 = {this.setKeysMod1}
-              setModRate = {this.setKeysModRate}
-              title = 'keyboard'
+            classes={classes}
+            config={this.configKeys}
+            setAmplitude={this.setKeysAmplitude}
+            setAttack={this.setKeysAttack}
+            setDecay={this.setKeysDecay}
+            setModAmount={this.setKeysModAmount}
+            setOsc1={this.setKeysOsc1}
+            setMod1={this.setKeysMod1}
+            setModRate={this.setKeysModRate}
+            title='keyboard'
           />
 
-          <Chaos
-            setChaos = {this.setChaos}
-            
-          />
+          
+          <Chaos setChaos={this.setChaos} />
 
 
         </div>
 
-        
+
 
 
         <main className={mainClassName}>
@@ -692,17 +691,17 @@ YP   YP 88      88                       88   YD Y88888P    YP    ~Y8888P' 88   
 
         <div id={"keyboard-wrapper"} className={this.state.showControls ? 'show-controls ' : ''}>
           <Keyboard
-            config = {this.configKeys}
+            config={this.configKeys}
           />
         </div>
-        
+
 
       </div>
-      
+
     );
   }
-    
-  
+
+
 }
 
 /*
@@ -717,7 +716,7 @@ db   8D   .88.   88  88  88 88      88booo. 88.          db   8D 88booo.   .88. 
 ===================================================================================================
 ===================================================================================================                               
 */
-class SimpleSlider extends React.Component{
+class SimpleSlider extends React.Component {
 
   state = {
     value: this.props.init,
@@ -733,105 +732,24 @@ class SimpleSlider extends React.Component{
     const { value } = this.state;
 
     return (
-        <div>
-            <p className={"slider-label"}>{this.props.name}</p>
-          <StyledSlider
-            className = {"slider"}
-            value={value}
-            min={this.props.min}
-            max={this.props.max}
-            step={this.props.step}
-            onChange={this.handleChange}
-          />
-        </div>
-      
+      <div>
+        <p className={"slider-label"}>{this.props.name}</p>
+        <StyledSlider
+          className={"slider"}
+          value={value}
+          min={this.props.min}
+          max={this.props.max}
+          step={this.props.step}
+          onChange={this.handleChange}
+        />
+      </div>
+
     );
   }
 
 }
 
 
-class Chaos extends React.Component{
-    constructor(props) {
-        super(props);
-        this.state = {
-            active: false,
-            top: 0,
-            left: 0,
-        };
-
-        this.mouseDown = false;
-
-    }
-    _onMouseDown(e){
-        window.mouseDown = true;
-        this.setState({top: e.nativeEvent.offsetY, left: e.nativeEvent.offsetX});
-    }
-    _onMouseUp(e){
-      console.log('------------ mouse up called')
-        window.mouseDown = false;
-    }
-    _onMouseOut(e){
-        this.mouseDown=false;
-    }
-
-
-    
-
-
-    _onMouseMove(e) {
-        // this.setState({ x: e.nativeEvent.offsetX, y: e.nativeEvent.offsetY });
-
-        console.log(window.mouseDown)
-        if(window.mouseDown){
-            // console.log(e.nativeEvent.offsetX);
-            
-            this.props.setChaos(e.nativeEvent.offsetX, (-1 * (e.nativeEvent.offsetY - 255)));
-            this.setState({top: e.nativeEvent.offsetY, left: e.nativeEvent.offsetX});
-            // this.top = e.nativeEvent.offsetY;
-            // this.left = e.nativeEvent.offsetX;
-            // console.log(e.nativeEvent)
-        }
-        // else{
-        //   console.log("mouse is not down")
-        // }
-        
-      }
-
-      pointStyle = {
-        
-      };
-
-      
-
-
-
-    render() {
-     
-      let that = this;
-        return (
-            <>
-            <div style={{color:'red'}}>
-            {that.top !== undefined ? that.top.toString() : 'bob'}, {this.left}
-            {this.state.top.toString() + ", " + this.state.left.toString()}
-            </div>
-            
-                <div className="chaos-pad"  
-                    onMouseMove={this._onMouseMove.bind(this)} 
-                    onMouseDown={this._onMouseDown.bind(this)}
-                    onMouseUp={this._onMouseUp.bind(this)}
-                    onMouseOut={this._onMouseOut.bind(this)}
-                >
-                  <div className="chaos-point" style={{top:`${this.state.top}px`, left: `${this.state.left}px`}}></div>
-
-                </div>
-            </>
-
-        );
-    }
-
-
-}
 
 
 /* ----------------------------------------------------------------------------------------------------------------------
@@ -843,9 +761,9 @@ _        _______           _______
 |  ( \ \ | (         ) (         ) |
 |  /  \ \| (____/\   | |   /\____) |
 |_/    \/(_______/   \_/   \_______)
-/* ---------------------------------------------------------------------------------------------------------------------- */       
+/* ---------------------------------------------------------------------------------------------------------------------- */
 
-class Key extends React.Component{
+class Key extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -860,63 +778,63 @@ class Key extends React.Component{
 
 
 
-  handleDown(){
-    if(!this.state.active){
+  handleDown() {
+    if (!this.state.active) {
       let config = JSON.parse(JSON.stringify(this.props.config));
       config.freq = scale[this.props.freq];
       this.beep = new Beep(config, scale[this.props.freq], true);
-      this.setState({active: true});
+      this.setState({ active: true });
       // console.log("testo: " +    config.freq);
     }
 
   }
 
-  handleUp(){
-    if(this.state.active){
+  handleUp() {
+    if (this.state.active) {
       // this.beep.kill();
       this.beep.fadeOut();
-      this.setState({active:false});
+      this.setState({ active: false });
     }
 
   }
 
-  handleOut(){
-    if(this.state.active){
+  handleOut() {
+    if (this.state.active) {
       this.beep.fadeOut();
-      this.setState({active:false});
+      this.setState({ active: false });
     }
   }
 
-  handleEnter(){
-    if(!this.state.active && mouseDown){
+  handleEnter() {
+    if (!this.state.active && mouseDown) {
       this.beep = new Beep(this.props.config, this.props.freq, true);
-      this.setState({active: true});
+      this.setState({ active: true });
     }
 
   }
 
   render() {
     return (
-          <>
-            <KeyHandler
-                keyEventName={KEYDOWN}
-                keyValue={keyboardMapping[this.props.freq]}
-                onKeyHandle={this.handleDown}
-            />
-            <KeyHandler
-                keyEventName={KEYUP}
-                keyValue={keyboardMapping[this.props.freq]}
-                onKeyHandle={this.handleUp}
-            />
-          <div className={"beep key beep-col"}
-               onMouseDown={this.handleDown} onMouseUp={this.handleUp} onMouseLeave={this.handleOut} onMouseEnter={this.handleEnter}
-          >
-            <div className={this.state.active ? "beep-inner active" : "beep-inner"}>
-              <div className={"key-label"}>{keyboardMapping[this.props.freq]}</div>
-            </div>
-
+      <>
+        <KeyHandler
+          keyEventName={KEYDOWN}
+          keyValue={keyboardMapping[this.props.freq]}
+          onKeyHandle={this.handleDown}
+        />
+        <KeyHandler
+          keyEventName={KEYUP}
+          keyValue={keyboardMapping[this.props.freq]}
+          onKeyHandle={this.handleUp}
+        />
+        <div className={"beep key beep-col"}
+          onMouseDown={this.handleDown} onMouseUp={this.handleUp} onMouseLeave={this.handleOut} onMouseEnter={this.handleEnter}
+        >
+          <div className={this.state.active ? "beep-inner active" : "beep-inner"}>
+            <div className={"key-label"}>{keyboardMapping[this.props.freq]}</div>
           </div>
-          </>
+
+        </div>
+      </>
 
     );
   }
@@ -924,7 +842,7 @@ class Key extends React.Component{
 
 }
 
-class Keyboard extends  React.Component{
+class Keyboard extends React.Component {
 
   constructor(props) {
     super(props);
@@ -932,26 +850,26 @@ class Keyboard extends  React.Component{
 
   render() {
     return (
-        <div id={"keyboard"}>
-          <Key config={this.props.config} freq={15}/>
-          <Key config={this.props.config} freq={14}/>
-          <Key config={this.props.config} freq={13}/>
-          <Key config={this.props.config} freq={12}/>
-          <Key config={this.props.config} freq={11}/>
-          <Key config={this.props.config} freq={10}/>
-          <Key config={this.props.config} freq={9}/>
-          <Key config={this.props.config} freq={8}/>
-          <Key config={this.props.config} freq={7}/>
-          <Key config={this.props.config} freq={6}/>
-          <Key config={this.props.config} freq={5}/>
-          <Key config={this.props.config} freq={4}/>
-          <Key config={this.props.config} freq={3}/>
-          <Key config={this.props.config} freq={2}/>
-          <Key config={this.props.config} freq={1}/>
-          <Key config={this.props.config} freq={0}/>
+      <div id={"keyboard"}>
+        <Key config={this.props.config} freq={15} />
+        <Key config={this.props.config} freq={14} />
+        <Key config={this.props.config} freq={13} />
+        <Key config={this.props.config} freq={12} />
+        <Key config={this.props.config} freq={11} />
+        <Key config={this.props.config} freq={10} />
+        <Key config={this.props.config} freq={9} />
+        <Key config={this.props.config} freq={8} />
+        <Key config={this.props.config} freq={7} />
+        <Key config={this.props.config} freq={6} />
+        <Key config={this.props.config} freq={5} />
+        <Key config={this.props.config} freq={4} />
+        <Key config={this.props.config} freq={3} />
+        <Key config={this.props.config} freq={2} />
+        <Key config={this.props.config} freq={1} />
+        <Key config={this.props.config} freq={0} />
 
 
-        </div>
+      </div>
     );
   }
 
@@ -959,7 +877,7 @@ class Keyboard extends  React.Component{
 
 
 // Defines a slider control
-class Controls extends React.Component{
+class Controls extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -968,91 +886,91 @@ class Controls extends React.Component{
   }
 
   toggleCollapse = () => {
-    this.setState({collapsed: !this.state.collapsed});
+    this.setState({ collapsed: !this.state.collapsed });
   }
 
-  render(){
-    let osc1 = this.props.config.types.map((t)=>{
+  render() {
+    let osc1 = this.props.config.types.map((t) => {
       return (
-          <li onClick={this.props.setOsc1} className={this.props.config.waveType === t ? 'active' : 'inactive'}>
-            <img src={"images/icon-"+ t + ".png"} name={t}/>
-          </li>
+        <li onClick={this.props.setOsc1} className={this.props.config.waveType === t ? 'active' : 'inactive'}>
+          <img src={"images/icon-" + t + ".png"} name={t} />
+        </li>
       );
     });
-    let mod1 = this.props.config.types.map((t)=>{
+    let mod1 = this.props.config.types.map((t) => {
       return (
-          <li onClick={this.props.setMod1} className={this.props.config.modType === t ? 'active' : 'inactive'}>
-            <img src={"images/icon-"+ t + ".png"} name={t}/>
-          </li>
+        <li onClick={this.props.setMod1} className={this.props.config.modType === t ? 'active' : 'inactive'}>
+          <img src={"images/icon-" + t + ".png"} name={t} />
+        </li>
       );
     });
 
-    return(
-        <div className={this.props.classes.sliderWrap + ' slider controls-wrapper ' + (this.state.collapsed ? 'collapsed' : '')}>
-          <div className={'controls-title'}>
-            {this.props.title}
-            <div className='fix-right' onClick={this.toggleCollapse}>
-              {this.state.collapsed ? <ExpandMore /> : <ExpandLess />}
-            </div>
+    return (
+      <div className={this.props.classes.sliderWrap + ' slider controls-wrapper ' + (this.state.collapsed ? 'collapsed' : '')}>
+        <div className={'controls-title'}>
+          {this.props.title}
+          <div className='fix-right' onClick={this.toggleCollapse}>
+            {this.state.collapsed ? <ExpandMore /> : <ExpandLess />}
           </div>
-          <p className={'slider-label'}>waveform</p>
-          <ul className={'wave-buttons'}>
-            {osc1}
-          </ul>
-
-
-          <SimpleSlider
-              name={'amplitude'}
-              init={this.props.config.amplitude}
-              handleChange={this.props.setAmplitude}
-              min={0}
-              max={this.props.config.amplitudeRange[1]}
-              step={this.props.config.amplitudeRange[2]}
-          />
-
-          <SimpleSlider
-              name={'attack'}
-              init={this.props.config.attack}
-              handleChange={this.props.setAttack}
-              min={0}
-              max={this.props.config.attackRange[1]}
-              step={this.props.config.attackRange[2]}
-          />
-
-          <SimpleSlider
-              name={'decay'}
-              init={this.props.config.decay}
-              handleChange={this.props.setDecay}
-              min={0}
-
-              max={this.props.config.decayRange[1]}
-              step={this.props.config.decayRange[2]}
-          />
-          <p className={'slider-label'}>modulation waveform</p>
-          <ul className={'wave-buttons'}>
-            {mod1}
-          </ul>
-
-
-          <SimpleSlider
-              name={'modulation amount'}
-              init={131}
-              handleChange={this.props.setModAmount}
-              min={0}
-              max={this.props.config.modAmountRange[1]}
-              step={this.props.config.modAmountRange[2]}
-          />
-
-          <SimpleSlider
-              name={'modulation rate'}
-              init={50}
-              handleChange={this.props.setModRate}
-              min={0}
-              max={this.props.config.modFrequencyRange[1]}
-              step={this.props.config.modFrequencyRange[2]}
-          />
-
         </div>
+        <p className={'slider-label'}>waveform</p>
+        <ul className={'wave-buttons'}>
+          {osc1}
+        </ul>
+
+
+        <SimpleSlider
+          name={'amplitude'}
+          init={this.props.config.amplitude}
+          handleChange={this.props.setAmplitude}
+          min={0}
+          max={this.props.config.amplitudeRange[1]}
+          step={this.props.config.amplitudeRange[2]}
+        />
+
+        <SimpleSlider
+          name={'attack'}
+          init={this.props.config.attack}
+          handleChange={this.props.setAttack}
+          min={0}
+          max={this.props.config.attackRange[1]}
+          step={this.props.config.attackRange[2]}
+        />
+
+        <SimpleSlider
+          name={'decay'}
+          init={this.props.config.decay}
+          handleChange={this.props.setDecay}
+          min={0}
+
+          max={this.props.config.decayRange[1]}
+          step={this.props.config.decayRange[2]}
+        />
+        <p className={'slider-label'}>modulation waveform</p>
+        <ul className={'wave-buttons'}>
+          {mod1}
+        </ul>
+
+
+        <SimpleSlider
+          name={'modulation amount'}
+          init={131}
+          handleChange={this.props.setModAmount}
+          min={0}
+          max={this.props.config.modAmountRange[1]}
+          step={this.props.config.modAmountRange[2]}
+        />
+
+        <SimpleSlider
+          name={'modulation rate'}
+          init={50}
+          handleChange={this.props.setModRate}
+          min={0}
+          max={this.props.config.modFrequencyRange[1]}
+          step={this.props.config.modFrequencyRange[2]}
+        />
+
+      </div>
     );
   }
 }
@@ -1086,11 +1004,11 @@ db    db d888888b d888888b db      .d8888.
  * Creates an empty 2 dimensional array representing the rhythm
  * In the UI, beats are the columns, notes the rows
  */
-function createEmptyRhythm(numberBeats, numberNotes){
+function createEmptyRhythm(numberBeats, numberNotes) {
   let arr = []
-  for(let i = 0; i < numberBeats; i++){
+  for (let i = 0; i < numberBeats; i++) {
     let column = [];
-    for(let e = 0; e < numberNotes; e++){
+    for (let e = 0; e < numberNotes; e++) {
       column.push(false);
     }
     arr.push(column);
@@ -1098,15 +1016,15 @@ function createEmptyRhythm(numberBeats, numberNotes){
   return arr;
 }
 
-function calculateModFrequency(v){
-  return (v * (.001*v));
+function calculateModFrequency(v) {
+  return (v * (.001 * v));
 }
-function calculateModAmount(v){
-  return (v * (.001*v));
+function calculateModAmount(v) {
+  return (v * (.001 * v));
 }
 
-function convertTempo(t){
-  return 15000/t;
+function convertTempo(t) {
+  return 15000 / t;
 }
 
 export default withStyles(styles)(App);
@@ -1114,11 +1032,11 @@ export default withStyles(styles)(App);
 
 
 let mouseDown = false;
-document.body.onmousedown = function() {
+document.body.onmousedown = function () {
   mouseDown = true;
   // console.log(mouseDown);
 };
-document.body.onmouseup = function() {
+document.body.onmouseup = function () {
   mouseDown = false;
   // console.log(mouseDown);
 };
