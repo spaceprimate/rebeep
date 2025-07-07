@@ -12,7 +12,7 @@ Y8888P' Y88888P Y88888P 88
 
 const audio = new window.AudioContext();
 
-function randomize(value, min, max, chaos){
+function addRandom(value, min, max, chaos){
   const r1 = Math.random()
   const prob = chaos[0]
   if (prob > r1) {
@@ -114,8 +114,8 @@ function randomConfig(config) {
 
   console.log(config)
 
-  config.modFrequency = randomize(config.modFrequency, config.modFrequencyRange[0], config.modFrequencyRange[1], config.chaos)
-  config.modAmount = randomize(config.modAmount, config.modAmountRange[0], config.modAmountRange[1], config.chaos)
+  config.modFrequency = addRandom(config.modFrequency, config.modFrequencyRange[0], config.modFrequencyRange[1], config.chaos)
+  config.modAmount = addRandom(config.modAmount, config.modAmountRange[0], config.modAmountRange[1], config.chaos)
 
 
 
